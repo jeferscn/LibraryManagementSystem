@@ -2,7 +2,7 @@
     <string name="app_name">Library Management System</string>
     <string name="btn_books">Livros</string>
     <string name="btn_users">Usuários</string>
-    <string name="btn_registers">Cadastro</string>
+    <string name="btn_register">Cadastro</string>
     <string name="btn_history">Histórico</string>
-    <string name="main_screen_title">Sistema de Gerenciamento\nde Livrarias</string>
+    <string name="main_screen_title">Sistema de Gerenciamento\nde Biblioteca</string>
 </resources>

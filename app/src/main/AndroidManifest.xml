@@ -13,6 +13,18 @@
         android:theme="@style/Theme.LibraryManagementSystem"
         tools:targetApi="31">
         <activity
+            android:name=".ui.BorrowActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UsersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.BooksActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

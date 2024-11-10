@@ -24,6 +24,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_borrow"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/black"
+        android:text="Empréstimo"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_books"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:strokeColor="@color/white"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_books"
         android:layout_width="0dp"
         android:layout_height="60dp"
@@ -46,7 +61,7 @@
         android:text="@string/btn_users"
         android:textSize="16sp"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_registers"
+        app:layout_constraintBottom_toTopOf="@+id/btn_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.8"
@@ -54,33 +69,18 @@
         app:strokeWidth="1dp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_registers"
+        android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:backgroundTint="@color/black"
-        android:text="@string/btn_registers"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_history"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.8"
-        app:strokeColor="@color/white"
-        app:strokeWidth="1dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_history"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/btn_history"
+        android:text="@string/btn_register"
         android:textSize="16sp"
         app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.8"
+        android:layout_marginBottom="60dp"
         app:strokeColor="@color/white"
         app:strokeWidth="1dp" />
 
