@@ -3,17 +3,17 @@ package com.example.librarymanagementsystem.ui.book
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.librarymanagementsystem.databinding.ActivityBooksBinding
+import com.example.librarymanagementsystem.databinding.ActivityBookBinding
 
 class BookActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBooksBinding
+    private lateinit var binding: ActivityBookBinding
 
     private val viewmodel by viewModels<BookViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBooksBinding.inflate(layoutInflater)
+        binding = ActivityBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 }
