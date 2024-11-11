@@ -13,13 +13,13 @@
         android:theme="@style/Theme.LibraryManagementSystem"
         tools:targetApi="31">
         <activity
-            android:name=".ui.BorrowActivity"
+            android:name=".ui.borrow.BorrowActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.UsersActivity"
+            android:name=".ui.user.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.BooksActivity"
+            android:name=".ui.book.BookActivity"
             android:exported="false" />
         <activity
             android:name=".ui.HomeActivity"

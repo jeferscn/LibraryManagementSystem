@@ -1,16 +1,15 @@
-package com.example.librarymanagementsystem.ui
+package com.example.librarymanagementsystem.ui.user
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.databinding.ActivityUsersBinding
 
-class UsersActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUsersBinding
+
+    private val viewmodel by viewModels<UserViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
