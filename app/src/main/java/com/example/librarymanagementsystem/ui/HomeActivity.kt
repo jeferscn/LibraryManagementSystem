@@ -2,17 +2,17 @@ package com.example.librarymanagementsystem.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.librarymanagementsystem.databinding.ActivityMainBinding
+import com.example.librarymanagementsystem.databinding.ActivityHomeBinding
 import com.example.librarymanagementsystem.extensions.setSafeOnClickListener
 import com.example.librarymanagementsystem.managers.NavigationManager
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupButtons()
@@ -54,6 +54,5 @@ class MainActivity : AppCompatActivity() {
     * 1 - Empréstimo, onde será capaz adicionar/remover livros vinculados aos usuários, da lista que constará na mesma tela
     * 2 - Livros, onde será capaz adicionar/remover livros da lista que constará na mesma tela
     * 3 - Usuários, onde será capaz adicionar/remover usuários da lista que constará na mesma tela
-    * 4
     * */
 }
