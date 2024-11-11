@@ -30,10 +30,6 @@ class MainActivity : AppCompatActivity() {
         binding.btnUsers.setSafeOnClickListener {
             NavigationManager.goToUsers(this)
         }
-
-        binding.btnRegister.setSafeOnClickListener {
-            NavigationManager.goToRegister(this)
-        }
     }
 
     /*
@@ -47,8 +43,17 @@ class MainActivity : AppCompatActivity() {
     /*
     * Telas do sistema:
     *  1 - Tela de Navegação:
-    *       a - Tela de Cadastros
-    *       b - Tela de lista de livros emprestados
-    *       c - Tela de lista de livros disponíveis
+    *       a - Tela de Empréstimo
+    *       b - Tela de Livros
+    *       c - Tela de Usuários
+    * */
+
+    /*
+    * Ideia do projeto:
+    * Temos quatro opções no menu da tela inicial:
+    * 1 - Empréstimo, onde será capaz adicionar/remover livros vinculados aos usuários, da lista que constará na mesma tela
+    * 2 - Livros, onde será capaz adicionar/remover livros da lista que constará na mesma tela
+    * 3 - Usuários, onde será capaz adicionar/remover usuários da lista que constará na mesma tela
+    * 4
     * */
 }

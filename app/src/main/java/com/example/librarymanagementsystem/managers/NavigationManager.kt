@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.ui.BooksActivity
 import com.example.librarymanagementsystem.ui.BorrowActivity
-import com.example.librarymanagementsystem.ui.RegisterActivity
 import com.example.librarymanagementsystem.ui.UsersActivity
 
 object NavigationManager {
@@ -21,11 +20,6 @@ object NavigationManager {
 
     fun goToUsers(context: AppCompatActivity) {
         val intent = Intent(context, UsersActivity::class.java)
-        context.startActivity(intent)
-    }
-
-    fun goToRegister(context: AppCompatActivity) {
-        val intent = Intent(context, RegisterActivity::class.java)
         context.startActivity(intent)
     }
 }
