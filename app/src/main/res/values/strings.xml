@@ -4,11 +4,11 @@
     <string name="btn_users">Usuários</string>
     <string name="btn_history">Histórico</string>
     <string name="main_screen_title">Sistema de Gerenciamento\nde Biblioteca</string>
-    <string name="book_title_label">Book Title</string>
-    <string name="book_description_label">Description</string>
-    <string name="book_image_url_label">Image URL</string>
-    <string name="button_submit">Submit</string>
-    <string name="button_delete">Delete</string>
-    <string name="book_form_validation_error">Please fill in the title</string>
-    <string name="empty_book_list_hint">Empty book list</string>
+    <string name="book_title_label">Título</string>
+    <string name="book_description_label">Descrição</string>
+    <string name="book_image_url_label">URL da Imagem</string>
+    <string name="button_submit">Salvar</string>
+    <string name="button_delete">Deletar</string>
+    <string name="book_form_validation_error">Por favor, informe o título do livro</string>
+    <string name="empty_book_list_hint">Nenhum livro adicionado ainda</string>
 </resources>

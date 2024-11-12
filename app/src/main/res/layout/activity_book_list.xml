@@ -12,6 +12,8 @@
         android:id="@+id/txt_book_list_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:maxLines="2"
         android:text="@string/empty_book_list_hint"
         android:textColor="@color/white"
         android:textSize="18sp"
