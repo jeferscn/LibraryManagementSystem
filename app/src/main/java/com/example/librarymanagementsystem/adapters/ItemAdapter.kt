@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.librarymanagementsystem.databinding.ItemAdapterBinding
+import com.example.librarymanagementsystem.models.User
 
 class ItemAdapter(
-    private val items: MutableList<Pair<String, String>>
+    private val items: MutableList<User>
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemAdapterBinding) : RecyclerView.ViewHolder(binding.root)
@@ -17,9 +18,9 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = items[position]
-        holder.binding.title.text = item.first
-        holder.binding.description.text = item.second
+        val user = items[position]
+        holder.binding.title.text = user.name
+        holder.binding.description.text = user.surname
     }
 
     override fun getItemCount() = items.size
