@@ -5,17 +5,17 @@ import com.example.librarymanagementsystem.models.User
 
 class UserViewModel : ViewModel() {
 
-    private val items = mutableListOf<User>()
+    private val users = mutableListOf<User>()
 
     fun getItems(): MutableList<User> {
-        return items
+        return users
     }
 
     fun addItem(name: String, surname: String, failure: () -> Unit) {
         if (name.isNotEmpty() && surname.isNotEmpty()) {
-            items.add(
+            users.add(
                 User(
-                    id = items.size + 1,
+                    id = users.size + 1,
                     name = name,
                     surname = surname
                 )
@@ -27,7 +27,7 @@ class UserViewModel : ViewModel() {
 
     fun removeItem(position: Int, failure: () -> Unit) {
         runCatching {
-            items.removeAt(position)
+            users.removeAt(position)
         }.onFailure {
             failure()
         }
