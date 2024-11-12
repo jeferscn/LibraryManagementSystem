@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.data.model.Book
+import com.example.librarymanagementsystem.data.repository.BookRepository
 import com.example.librarymanagementsystem.databinding.DialogBookItemBinding
 import com.example.librarymanagementsystem.extensions.setSafeOnClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -25,10 +27,18 @@ class BookItemModal : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupBook(BookRepository.getMockData())
+
         binding.buttonSubmit.setSafeOnClickListener {
             submitData()
             dismiss()
         }
+    }
+
+    private fun setupBook(book: Book) {
+        binding.editTextTitle.setText(book.title)
+        binding.editTextDesc.setText(book.description)
+        binding.editTextImageUrl.setText(book.imageUrl)
     }
 
     private fun submitData() {

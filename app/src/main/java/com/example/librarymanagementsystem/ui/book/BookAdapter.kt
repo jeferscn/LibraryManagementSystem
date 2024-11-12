@@ -48,7 +48,7 @@ class BookAdapter(
             }
         }
 
-        private fun loadImage(imageUrl: String) {
+        private fun loadImage(imageUrl: String?) {
             Glide.with(itemView.context)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_baseline_add_photo_alternate_24)

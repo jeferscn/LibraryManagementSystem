@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.librarymanagementsystem.data.model.Book
+import com.example.librarymanagementsystem.data.repository.BookRepository
 
 class BookViewModel : ViewModel() {
 
@@ -11,15 +12,14 @@ class BookViewModel : ViewModel() {
     val bookList: LiveData<List<Book>> = _bookList
 
     fun addBook(title: String, description: String?, imageUrl: String?) {
-        val currentList = _bookList.value.orEmpty().toMutableList()
-
         val book = Book(
-            id = currentList.size.toString(),
             title = title,
             description = description,
             imageUrl = imageUrl
         )
 
-        _bookList.value = currentList.also { it.add(book) }
+        BookRepository.insertBook(book)
+
+        _bookList.value = BookRepository.getBookList()
     }
 }
