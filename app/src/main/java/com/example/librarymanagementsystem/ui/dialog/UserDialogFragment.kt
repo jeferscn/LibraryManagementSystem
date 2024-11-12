@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.example.librarymanagementsystem.databinding.UserBottomSheetDialogBinding
 import com.example.librarymanagementsystem.ui.activity.user.UserViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.example.librarymanagementsystem.ui.base.BaseModal
 
-class UserDialogFragment : BottomSheetDialogFragment() {
+class UserDialogFragment : BaseModal() {
 
     private lateinit var binding: UserBottomSheetDialogBinding
     private val viewmodel by activityViewModels<UserViewModel>()
