@@ -1,17 +1,15 @@
-package com.example.librarymanagementsystem.ui.activity.book
+package com.example.librarymanagementsystem.ui.book
 
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.librarymanagementsystem.databinding.ActivityBookListBinding
+import com.example.librarymanagementsystem.databinding.ActivityBookBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
-import com.example.librarymanagementsystem.ui.book.BookAdapter
-import com.example.librarymanagementsystem.ui.book.BookItemModal
 
-class BookListActivity : AppCompatActivity() {
+class BookActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBookListBinding
+    private lateinit var binding: ActivityBookBinding
 
     private val viewmodel by viewModels<BookViewModel>()
 
@@ -20,7 +18,7 @@ class BookListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityBookListBinding.inflate(layoutInflater)
+        binding = ActivityBookBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
@@ -33,17 +31,20 @@ class BookListActivity : AppCompatActivity() {
         binding.listItems.adapter = adapter
 
         viewmodel.bookList.observe(this) {
-            if (it.isEmpty()) {
-                binding.txtBookListEmpty.visibility = View.VISIBLE
-            } else {
-                binding.txtBookListEmpty.visibility = View.GONE
-            }
-
+            setupEmptyListMessage(it.isEmpty())
             adapter.submitList(it)
         }
 
         binding.btnAddAction.setSafeOnClickListener {
-            BookItemModal.newInstance().show(supportFragmentManager, "BookItemModal")
+            BookModal.newInstance().show(supportFragmentManager, BookModal::class.java.simpleName)
+        }
+    }
+
+    private fun setupEmptyListMessage(isEmptyList: Boolean) {
+        binding.txtEmptyList.visibility = if (isEmptyList) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 }

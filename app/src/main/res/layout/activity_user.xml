@@ -5,26 +5,46 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.user.UserActivity">
+    android:background="@color/black"
+    tools:context=".ui.user.UserActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        tools:listitem="@layout/user_adapter"
-        tools:itemCount="5"
+    <TextView
+        android:id="@+id/txt_empty_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:fontFamily="casual"
+        android:maxLines="2"
+        android:text="@string/empty_user_list_hint"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_items"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:paddingBottom="32dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_add_action"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="10"
+        tools:listitem="@layout/adapter_user" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add"
+        android:id="@+id/btn_add_action"
         android:layout_width="60dp"
         android:layout_height="66dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,10 +54,10 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_add"
-        app:layout_constraintEnd_toEndOf="@+id/btn_add"
-        app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toTopOf="@+id/btn_add"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_add_action"
+        app:layout_constraintEnd_toEndOf="@+id/btn_add_action"
+        app:layout_constraintStart_toStartOf="@+id/btn_add_action"
+        app:layout_constraintTop_toTopOf="@+id/btn_add_action"
         app:srcCompat="@drawable/ic_plus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

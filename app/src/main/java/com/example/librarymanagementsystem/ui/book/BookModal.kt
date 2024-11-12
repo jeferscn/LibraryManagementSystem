@@ -9,14 +9,13 @@ import androidx.fragment.app.activityViewModels
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.repository.BookRepository
-import com.example.librarymanagementsystem.databinding.DialogBookItemBinding
+import com.example.librarymanagementsystem.databinding.ModalBookBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
-import com.example.librarymanagementsystem.ui.activity.book.BookViewModel
 import com.example.librarymanagementsystem.ui.base.BaseModal
 
-class BookItemModal : BaseModal() {
+class BookModal : BaseModal() {
 
-    private lateinit var binding: DialogBookItemBinding
+    private lateinit var binding: ModalBookBinding
 
     private val viewmodel by activityViewModels<BookViewModel>()
 
@@ -28,7 +27,7 @@ class BookItemModal : BaseModal() {
         private const val BOOK_DESCRIPTION = "description"
         private const val BOOK_IMAGE_URL = "imageUrl"
 
-        fun newInstance(book: Book? = null) = BookItemModal().apply {
+        fun newInstance(book: Book? = null) = BookModal().apply {
             arguments = Bundle().apply {
                 putInt(BOOK_ID, book?.id ?: 0)
                 putString(BOOK_TITLE, book?.title)
@@ -39,7 +38,7 @@ class BookItemModal : BaseModal() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DialogBookItemBinding.inflate(inflater, container, false)
+        binding = ModalBookBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -50,17 +49,17 @@ class BookItemModal : BaseModal() {
 
         setupBookData()
 
-        binding.buttonSubmit.setSafeOnClickListener {
+        binding.btnSave.setSafeOnClickListener {
             submitData()
             dismiss()
         }
 
         if (bookItem.id == null) {
-            binding.buttonDelete.visibility = View.INVISIBLE
+            binding.btnDelete.visibility = View.INVISIBLE
         } else {
-            binding.buttonDelete.visibility = View.VISIBLE
+            binding.btnDelete.visibility = View.VISIBLE
 
-            binding.buttonDelete.setSafeOnClickListener {
+            binding.btnDelete.setSafeOnClickListener {
                 viewmodel.delete(bookItem)
                 dismiss()
             }

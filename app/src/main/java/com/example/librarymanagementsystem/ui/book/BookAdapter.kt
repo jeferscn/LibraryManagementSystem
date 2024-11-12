@@ -19,7 +19,7 @@ class BookAdapter(
     override fun getItemCount(): Int = bookList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_book, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_book, parent, false)
         return BookViewHolder(view)
     }
 
@@ -50,7 +50,7 @@ class BookAdapter(
 
             itemView.setOnClickListener {
                 (itemView.context as? AppCompatActivity)?.apply {
-                    BookItemModal.newInstance(book).show(supportFragmentManager, "BookItemModal")
+                    BookModal.newInstance(book).show(supportFragmentManager, BookModal::class.java.simpleName)
                 }
             }
         }

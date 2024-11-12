@@ -1,13 +1,11 @@
-package com.example.librarymanagementsystem.ui.activity.user
+package com.example.librarymanagementsystem.ui.user
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.librarymanagementsystem.adapter.UserAdapter
 import com.example.librarymanagementsystem.databinding.ActivityUserBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
-import com.example.librarymanagementsystem.ui.dialog.UserDialogFragment
 
 class UserActivity : AppCompatActivity() {
 
@@ -20,15 +18,26 @@ class UserActivity : AppCompatActivity() {
         binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnAdd.setSafeOnClickListener {
-            UserDialogFragment().show(supportFragmentManager, UserDialogFragment::class.java.simpleName)
+        binding.btnAddAction.setSafeOnClickListener {
+            UserModal().show(supportFragmentManager, UserModal::class.java.simpleName)
         }
 
         viewmodel.users.observe(this) {
-            binding.recyclerList.apply {
-                layoutManager = LinearLayoutManager(this@UserActivity)
-                adapter = UserAdapter(viewmodel.getItems())
+            binding.listItems.apply {
+                val items = viewmodel.getItems()
+
+                setupEmptyListMessage(items.isEmpty())
+
+                adapter = UserAdapter(items)
             }
+        }
+    }
+
+    private fun setupEmptyListMessage(isEmptyList: Boolean) {
+        binding.txtEmptyList.visibility = if (isEmptyList) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 }

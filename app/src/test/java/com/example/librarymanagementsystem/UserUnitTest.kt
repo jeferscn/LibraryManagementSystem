@@ -1,7 +1,7 @@
 package com.example.librarymanagementsystem
 
-import com.example.librarymanagementsystem.model.User
-import com.example.librarymanagementsystem.ui.activity.user.UserViewModel
+import com.example.librarymanagementsystem.data.model.User
+import com.example.librarymanagementsystem.ui.user.UserViewModel
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 

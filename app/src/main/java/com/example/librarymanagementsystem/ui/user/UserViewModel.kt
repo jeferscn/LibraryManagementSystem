@@ -1,8 +1,8 @@
-package com.example.librarymanagementsystem.ui.activity.user
+package com.example.librarymanagementsystem.ui.user
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.librarymanagementsystem.model.User
+import com.example.librarymanagementsystem.data.model.User
 
 class UserViewModel : ViewModel() {
 

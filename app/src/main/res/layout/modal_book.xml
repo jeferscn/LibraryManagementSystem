@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:paddingBottom="40dp"
     android:paddingHorizontal="24dp"
     android:paddingVertical="16dp"
     android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="60dp"
+        android:layout_height="4dp"
+        app:cardElevation="0dp"
+        android:elevation="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/black"
+        app:cardCornerRadius="8dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -18,7 +30,8 @@
             android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -33,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top|start"
+            android:imeOptions="actionNext"
             android:inputType="textMultiLine"
             android:lines="4" />
 
@@ -53,18 +67,18 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_submit"
+        android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:padding="16dp"
         android:backgroundTint="@color/black"
-        android:text="@string/button_submit"
+        android:text="@string/button_save"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_delete"
+        android:id="@+id/btn_delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
