@@ -33,19 +33,36 @@ object BookRepository {
 
     private val bookList = mutableListOf<Book>()
 
+    fun truncate() {
+        bookList.clear()
+    }
+
     fun getList(): List<Book> = bookList
 
     fun insert(book: Book) {
         book.id = bookList.size + 1
+
+        if (book.title.isNullOrEmpty()) {
+            return
+        }
+
         bookList.add(book)
     }
 
     fun update(book: Book) {
+        if (book.id == null || book.title.isNullOrEmpty()) {
+            return
+        }
+
         bookList.replaceAll { if (it.id == book.id) book else it }
     }
 
-    fun delete(book: Book) {
-        bookList.removeIf { it.id == book.id }
+    fun delete(bookId: Int?) {
+        if (bookId == null) {
+            return
+        }
+
+        bookList.removeIf { it.id == bookId }
     }
 
     fun getMockData(): Book {

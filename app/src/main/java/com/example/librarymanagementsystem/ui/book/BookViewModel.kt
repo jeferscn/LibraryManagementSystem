@@ -26,7 +26,7 @@ class BookViewModel : ViewModel() {
     }
 
     fun delete(book: Book) {
-        BookRepository.delete(book)
+        BookRepository.delete(book.id)
         updateBookList()
     }
 
