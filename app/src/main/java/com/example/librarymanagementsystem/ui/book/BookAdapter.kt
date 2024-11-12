@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
@@ -45,6 +46,12 @@ class BookAdapter(
                 imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24)
             } else {
                 loadImage(book.imageUrl)
+            }
+
+            itemView.setOnClickListener {
+                (itemView.context as? AppCompatActivity)?.apply {
+                    BookItemModal.newInstance(book).show(supportFragmentManager, "BookItemModal")
+                }
             }
         }
 

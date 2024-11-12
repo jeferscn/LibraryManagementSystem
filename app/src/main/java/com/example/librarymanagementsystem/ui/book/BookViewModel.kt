@@ -11,15 +11,26 @@ class BookViewModel : ViewModel() {
     private val _bookList = MutableLiveData<List<Book>>()
     val bookList: LiveData<List<Book>> = _bookList
 
-    fun addBook(title: String, description: String?, imageUrl: String?) {
-        val book = Book(
-            title = title,
-            description = description,
-            imageUrl = imageUrl
-        )
+    fun setup() {
+        updateBookList()
+    }
 
-        BookRepository.insertBook(book)
+    fun save(book: Book) {
+        if (book.id == null) {
+            BookRepository.insert(book)
+        } else {
+            BookRepository.update(book)
+        }
 
-        _bookList.value = BookRepository.getBookList()
+        updateBookList()
+    }
+
+    fun delete(book: Book) {
+        BookRepository.delete(book)
+        updateBookList()
+    }
+
+    private fun updateBookList() {
+        _bookList.value = BookRepository.getList()
     }
 }

@@ -1,8 +1,8 @@
 package com.example.librarymanagementsystem.data.model
 
 data class Book(
-    var id: String? = null,
-    var title: String,
-    var description: String?,
-    var imageUrl: String?
+    var id: Int? = null,
+    var title: String? = null,
+    var description: String? = null,
+    var imageUrl: String? = null
 )

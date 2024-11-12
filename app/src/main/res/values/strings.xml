@@ -8,5 +8,7 @@
     <string name="book_description_label">Description</string>
     <string name="book_image_url_label">Image URL</string>
     <string name="button_submit">Submit</string>
+    <string name="button_delete">Delete</string>
     <string name="book_form_validation_error">Please fill in the title</string>
+    <string name="empty_book_list_hint">Empty book list</string>
 </resources>

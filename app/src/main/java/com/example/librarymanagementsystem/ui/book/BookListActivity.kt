@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.ui.book
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.databinding.ActivityBookListBinding
@@ -21,6 +22,8 @@ class BookListActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        viewmodel.setup()
+
         setupInterface()
     }
 
@@ -28,11 +31,17 @@ class BookListActivity : AppCompatActivity() {
         binding.listItems.adapter = adapter
 
         viewmodel.bookList.observe(this) {
+            if (it.isEmpty()) {
+                binding.txtBookListEmpty.visibility = View.VISIBLE
+            } else {
+                binding.txtBookListEmpty.visibility = View.GONE
+            }
+
             adapter.submitList(it)
         }
 
         binding.btnAddAction.setSafeOnClickListener {
-            BookItemModal().show(supportFragmentManager, "BookItemModal")
+            BookItemModal.newInstance().show(supportFragmentManager, "BookItemModal")
         }
     }
 }

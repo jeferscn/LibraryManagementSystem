@@ -12,9 +12,7 @@ object BookRepository {
         "To Kill a Mockingbird",
         "1984",
         "Pride and Prejudice",
-        "The Catcher in the Rye",
-        "The Hobbit",
-        "Fahrenheit 451"
+        "The Catcher in the Rye"
     )
 
     private val mockDescriptions = listOf(
@@ -26,21 +24,28 @@ object BookRepository {
     )
 
     private val mockImages = listOf(
-        "https://f.i.uol.com.br/fotografia/2023/04/13/16813903606437fb18c8902_1681390360_1x1_md.jpg",
-        "https://www.istockphoto.com/resources/images/PhotoFTLP/1024x1024_1.jpg",
-        "https://static.wixstatic.com/media/31a549_7dffb191bffa440686e5a148b8e042d9~mv2.jpg/v1/fill/w_480,h_768,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/31a549_7dffb191bffa440686e5a148b8e042d9~mv2.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzxDrhq9H-FuI4XqxqND9mKRPWUu-NCe7hug&s",
-        "https://marketplace.canva.com/EAD0UPCkitY/1/0/1024w/canva-capa-de-livro-de-suspense-monocrom%C3%A1tica-com-foto-de-floresta-U1dpnJ3bwKw.jpg",
-        "https://i.pinimg.com/236x/14/9a/90/149a90aad3b735dbc24525ea79eff309.jpg",
+        "http://bookcoverarchive.com/wp-content/uploads/2020/07/91bh9jVbRZL.jpg",
+        "http://bookcoverarchive.com/wp-content/uploads/2020/07/8ecceb85-a50f-4e5d-a739-bec11f2373c5.jpeg",
+        "http://bookcoverarchive.com/wp-content/uploads/2015/06/bloodsplatters1st-uncorrected_txtwithcvf1.png",
+        "http://bookcoverarchive.com/wp-content/uploads/amazon/wall_street.jpg",
+        "http://bookcoverarchive.com/wp-content/uploads/2016/03/A1Pim60eMZL.jpg"
     )
 
     private val bookList = mutableListOf<Book>()
 
-    fun getBookList(): List<Book> = bookList
+    fun getList(): List<Book> = bookList
 
-    fun insertBook(book: Book) {
-        book.id = (bookList.size + 1).toString()
+    fun insert(book: Book) {
+        book.id = bookList.size + 1
         bookList.add(book)
+    }
+
+    fun update(book: Book) {
+        bookList.replaceAll { if (it.id == book.id) book else it }
+    }
+
+    fun delete(book: Book) {
+        bookList.removeIf { it.id == book.id }
     }
 
     fun getMockData(): Book {
