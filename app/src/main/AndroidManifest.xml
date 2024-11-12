@@ -19,7 +19,7 @@
             android:name=".ui.user.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.book.BookActivity"
+            android:name=".ui.book.BookListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.HomeActivity"

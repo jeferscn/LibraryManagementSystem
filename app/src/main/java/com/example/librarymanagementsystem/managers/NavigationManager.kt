@@ -2,7 +2,7 @@ package com.example.librarymanagementsystem.managers
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.librarymanagementsystem.ui.book.BookActivity
+import com.example.librarymanagementsystem.ui.book.BookListActivity
 import com.example.librarymanagementsystem.ui.borrow.BorrowActivity
 import com.example.librarymanagementsystem.ui.user.UserActivity
 
@@ -14,7 +14,7 @@ object NavigationManager {
     }
 
     fun goToBooks(context: AppCompatActivity) {
-        val intent = Intent(context, BookActivity::class.java)
+        val intent = Intent(context, BookListActivity::class.java)
         context.startActivity(intent)
     }
 
