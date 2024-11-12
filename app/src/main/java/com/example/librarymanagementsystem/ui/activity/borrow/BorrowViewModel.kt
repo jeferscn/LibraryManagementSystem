@@ -1,4 +1,4 @@
-package com.example.librarymanagementsystem.ui.borrow
+package com.example.librarymanagementsystem.ui.activity.borrow
 
 import androidx.lifecycle.ViewModel
 

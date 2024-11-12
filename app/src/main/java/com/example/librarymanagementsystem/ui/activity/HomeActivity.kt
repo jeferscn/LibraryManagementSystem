@@ -1,10 +1,10 @@
-package com.example.librarymanagementsystem.ui
+package com.example.librarymanagementsystem.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.databinding.ActivityHomeBinding
-import com.example.librarymanagementsystem.extensions.setSafeOnClickListener
-import com.example.librarymanagementsystem.managers.NavigationManager
+import com.example.librarymanagementsystem.extension.setSafeOnClickListener
+import com.example.librarymanagementsystem.manager.NavigationManager
 
 class HomeActivity : AppCompatActivity() {
 

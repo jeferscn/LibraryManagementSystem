@@ -4,4 +4,7 @@
     <string name="btn_users">Usuários</string>
     <string name="btn_history">Histórico</string>
     <string name="main_screen_title">Sistema de Gerenciamento\nde Biblioteca</string>
+    <string name="text_field_name">Nome</string>
+    <string name="text_field_surname">Sobrenome</string>
+    <string name="btn_save">Salvar</string>
 </resources>

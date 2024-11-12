@@ -1,10 +1,10 @@
-package com.example.librarymanagementsystem.managers
+package com.example.librarymanagementsystem.manager
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.librarymanagementsystem.ui.book.BookActivity
-import com.example.librarymanagementsystem.ui.borrow.BorrowActivity
-import com.example.librarymanagementsystem.ui.user.UserActivity
+import com.example.librarymanagementsystem.ui.activity.book.BookActivity
+import com.example.librarymanagementsystem.ui.activity.borrow.BorrowActivity
+import com.example.librarymanagementsystem.ui.activity.user.UserActivity
 
 object NavigationManager {
 

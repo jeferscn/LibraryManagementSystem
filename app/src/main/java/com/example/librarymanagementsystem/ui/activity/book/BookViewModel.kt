@@ -1,4 +1,4 @@
-package com.example.librarymanagementsystem.ui.book
+package com.example.librarymanagementsystem.ui.activity.book
 
 import androidx.lifecycle.ViewModel
 

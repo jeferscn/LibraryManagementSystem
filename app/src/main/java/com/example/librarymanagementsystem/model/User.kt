@@ -1,4 +1,4 @@
-package com.example.librarymanagementsystem.models
+package com.example.librarymanagementsystem.model
 
 data class User(
     val id: Int,

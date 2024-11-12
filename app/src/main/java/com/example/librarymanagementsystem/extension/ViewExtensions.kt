@@ -1,4 +1,4 @@
-package com.example.librarymanagementsystem.extensions
+package com.example.librarymanagementsystem.extension
 
 import android.view.View
 

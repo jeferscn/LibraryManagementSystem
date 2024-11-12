@@ -1,4 +1,4 @@
-package com.example.librarymanagementsystem.ui.book
+package com.example.librarymanagementsystem.ui.activity.book
 
 import android.os.Bundle
 import androidx.activity.viewModels
