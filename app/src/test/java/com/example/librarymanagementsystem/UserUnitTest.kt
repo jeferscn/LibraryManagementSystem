@@ -1,110 +1,85 @@
 package com.example.librarymanagementsystem
 
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.ui.user.UserViewModel
+import com.example.librarymanagementsystem.data.repository.UserRepository
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
+import org.junit.Before
 import org.junit.Test
 
 class UserUnitTest {
 
-    @Test
-    fun getItemsWithValues() {
-        val userViewModel = UserViewModel()
-        val items = userViewModel.getItems()
-        items.add(User(1, "TitleTest", "DescriptionTest"))
-        assertEquals(true, items.isNotEmpty())
+    @Before
+    fun setUp() {
+        UserRepository.truncate()
     }
 
     @Test
-    fun getItemsWithoutValues() {
-        val userViewModel = UserViewModel()
-        val items = userViewModel.getItems()
-        items.clear()
-        assertEquals(false, items.isNotEmpty())
+    fun `test insert valid user`() {
+        val user = User(name = "Jeferson", surname = "Pereira")
+        UserRepository.insert(user)
+
+        val userList = UserRepository.getList()
+        assertEquals(1, userList.size)
+        assertEquals("Jeferson", userList[0].name)
+        assertEquals("Pereira", userList[0].surname)
     }
 
     @Test
-    fun addItem() {
-        val userViewModel = UserViewModel()
-        val items = userViewModel.getItems()
-        items.clear()
-        userViewModel.addItem("TitleTest", "DescriptionTest") {
-            assertEquals(print("Failure"), "Failure")
-        }
-        assertEquals("TitleTest", items[0].name)
-        assertEquals("DescriptionTest", items[0].surname)
+    fun `test insert user with empty name`() {
+        val user = User(name = "", surname = "Pereira")
+        UserRepository.insert(user)
+
+        val userList = UserRepository.getList()
+        assertTrue(userList.isEmpty())
     }
 
     @Test
-    fun addItemWithEmptyValues() {
-        val userViewModel = UserViewModel()
-        val items = userViewModel.getItems()
-        items.clear()
-        userViewModel.addItem("", "") {
-            assertEquals(true, userViewModel.getItems().isEmpty())
-        }
+    fun `test update valid user`() {
+        val user = User(name = "Jeferson", surname = "Pereira")
+        UserRepository.insert(user)
+
+        val updatedUser = User(id = 1, name = "Jeferson2", surname = "Pereira2")
+        UserRepository.update(updatedUser)
+
+        val userList = UserRepository.getList()
+        assertEquals(1, userList.size)
+        assertEquals("Jeferson2", userList[0].name)
+        assertEquals("Pereira2", userList[0].surname)
     }
 
     @Test
-    fun addItemWithTitleOnly() {
-        val userViewModel = UserViewModel()
-        val items = userViewModel.getItems()
-        items.clear()
-        userViewModel.addItem("TitleTest", "") {
-            assertEquals(true, userViewModel.getItems().isEmpty())
-        }
+    fun `test update user with empty name or surname`() {
+        val user = User(name = "Jeferson", surname = "Pereira")
+        UserRepository.insert(user)
+
+        val updatedUser = User(id = 1, name = "", surname = "")
+        UserRepository.update(updatedUser)
+
+        val userList = UserRepository.getList()
+        assertEquals("Jeferson", userList[0].name)
+        assertEquals("Pereira", userList[0].surname)
     }
 
     @Test
-    fun addItemWithDescriptionOnly() {
-        val userViewModel = UserViewModel()
-        val items = userViewModel.getItems()
-        items.clear()
-        userViewModel.addItem("", "DescriptionTest") {
-            assertEquals(true, userViewModel.getItems().isEmpty())
-        }
+    fun `test delete existing user`() {
+        val user = User(name = "Jeferson", surname = "Pereira")
+        UserRepository.insert(user)
+        UserRepository.delete(user)
+
+        val userList = UserRepository.getList()
+        assertTrue(userList.isEmpty())
     }
 
     @Test
-    fun removeItemAfterAdding() {
-        val userViewModel = UserViewModel()
-        assertEquals(true, userViewModel.getItems().isEmpty())
-        userViewModel.addItem(name = "Jefs", surname = "Pereira") {
-            assertEquals(true, userViewModel.getItems().isNotEmpty())
-        }
-        assertEquals(true, userViewModel.getItems().isNotEmpty())
-        userViewModel.removeItem(0) {}
-        assertEquals(true, userViewModel.getItems().isEmpty())
-    }
+    fun `test delete user with null id`() {
+        val user = User(name = "Jeferson", surname = "Pereira")
+        UserRepository.insert(user)
 
-    @Test
-    fun removeItemAfterAddingWithFailure() {
-        val userViewModel = UserViewModel()
-        assertEquals(true, userViewModel.getItems().isEmpty())
-        userViewModel.addItem(name = "Fulano", surname = "Detal") {
-            assertEquals(true, userViewModel.getItems().isNotEmpty())
-        }
-        assertEquals(true, userViewModel.getItems().isNotEmpty())
-        userViewModel.removeItem(50) {
-            assertEquals(true, userViewModel.getItems().count() == 1)
-        }
-    }
+        val invalidUser = User(name = "Invalid")
+        UserRepository.delete(invalidUser)
 
-    @Test
-    fun removeItemWithEmptyList() {
-        val userViewModel = UserViewModel()
-        assertEquals(true, userViewModel.getItems().isEmpty())
-        userViewModel.removeItem(0) {
-            assertEquals(true, userViewModel.getItems().isEmpty())
-        }
-    }
-
-    @Test
-    fun removeItemWithInvalidPosition() {
-        val userViewModel = UserViewModel()
-        assertEquals(true, userViewModel.getItems().isEmpty())
-        userViewModel.removeItem(-1) {
-            assertEquals(true, userViewModel.getItems().isEmpty())
-        }
+        val userList = UserRepository.getList()
+        assertEquals(1, userList.size)
     }
 }

@@ -32,12 +32,8 @@ class UserModal : BaseModal() {
     private val viewmodel by activityViewModels<UserViewModel>()
     private lateinit var userItem: User
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ModalUserBinding.inflate(layoutInflater)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = ModalUserBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,6 +47,17 @@ class UserModal : BaseModal() {
         binding.btnSave.setSafeOnClickListener {
             submitData()
             dismiss()
+        }
+
+        if (userItem.id == null) {
+            binding.btnDelete.visibility = View.INVISIBLE
+        } else {
+            binding.btnDelete.visibility = View.VISIBLE
+
+            binding.btnDelete.setSafeOnClickListener {
+                viewmodel.delete(userItem)
+                dismiss()
+            }
         }
     }
 
