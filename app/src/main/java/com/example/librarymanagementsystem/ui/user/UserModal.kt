@@ -55,7 +55,10 @@ class UserModal : BaseModal() {
             binding.btnDelete.visibility = View.VISIBLE
 
             binding.btnDelete.setSafeOnClickListener {
-                viewmodel.delete(userItem)
+                if (!viewmodel.delete(userItem)) {
+                    displayError(getString(R.string.user_delete_error))
+                }
+
                 dismiss()
             }
         }
@@ -68,8 +71,7 @@ class UserModal : BaseModal() {
 
     private fun submitData() {
         if (!hasValidData()) {
-            Toast.makeText(requireContext(), getString(R.string.user_form_validation_error), Toast.LENGTH_SHORT).show()
-            return
+            return displayError(getString(R.string.user_form_validation_error))
         }
 
         userItem.name = binding.textFieldName.text.toString()
@@ -94,6 +96,10 @@ class UserModal : BaseModal() {
             name = binding.textFieldName.text.toString(),
             surname = binding.textFieldSurname.text.toString()
         )
+    }
+
+    private fun displayError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun isEditingItem() = (arguments?.getInt(USER_ID) ?: 0) > 0

@@ -17,6 +17,8 @@
     <string name="book_form_validation_error">Por favor, informe o título do livro</string>
     <string name="user_form_validation_error">Por favor, informe o nome e sobrenome do usuário</string>
     <string name="borrow_form_validation_error">Por favor, informe o usuário e o livro</string>
+    <string name="book_delete_error">Não é possível deletar o livro com empréstimos registrados</string>
+    <string name="user_delete_error">Não é possível deletar o usuário com empréstimos registrados</string>
     <string name="empty_book_list_hint">Nenhum livro adicionado ainda</string>
     <string name="empty_user_list_hint">Nenhum usuário adicionado ainda</string>
     <string name="empty_borrow_list_hint">Nenhum empréstimo registrado ainda</string>

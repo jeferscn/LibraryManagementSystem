@@ -30,18 +30,20 @@ object UserRepository {
         userList.replaceAll { if (it.id == user.id) user else it }
     }
 
-    fun delete(user: User) {
+    fun delete(user: User): Boolean {
         if (user.id == null) {
-            return
+            return false
         }
 
         val hasBorrow = BorrowRepository.getBorrowsFromUser(user.id).isNotEmpty()
 
         if (hasBorrow) {
-            return
+            return false
         }
 
         userList.removeIf { it.id == user.id }
+
+        return true
     }
 
     fun find(userId: Int?): User? {

@@ -21,9 +21,10 @@ class UserViewModel : ViewModel() {
         updateUserList()
     }
 
-    fun delete(user: User) {
-        UserRepository.delete(user)
-        updateUserList()
+    fun delete(user: User) = UserRepository.delete(user).also { success ->
+        if (success) {
+            updateUserList()
+        }
     }
 
     fun updateUserList() {

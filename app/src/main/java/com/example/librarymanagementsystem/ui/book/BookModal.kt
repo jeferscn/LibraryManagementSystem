@@ -60,7 +60,10 @@ class BookModal : BaseModal() {
             binding.btnDelete.visibility = View.VISIBLE
 
             binding.btnDelete.setSafeOnClickListener {
-                viewmodel.delete(bookItem)
+                if (!viewmodel.delete(bookItem)) {
+                    displayError(getString(R.string.book_delete_error))
+                }
+
                 dismiss()
             }
         }
@@ -74,8 +77,7 @@ class BookModal : BaseModal() {
 
     private fun submitData() {
         if (!hasValidData()) {
-            Toast.makeText(requireContext(), getString(R.string.book_form_validation_error), Toast.LENGTH_SHORT).show()
-            return
+            return displayError(getString(R.string.book_form_validation_error))
         }
 
         bookItem.title = binding.editTextTitle.text.toString()
@@ -96,6 +98,10 @@ class BookModal : BaseModal() {
         )
     } else {
         BookRepository.getMockData()
+    }
+
+    private fun displayError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun isEditingItem() = (arguments?.getInt(BOOK_ID) ?: 0) > 0

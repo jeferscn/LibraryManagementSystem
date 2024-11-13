@@ -57,18 +57,20 @@ object BookRepository {
         bookList.replaceAll { if (it.id == book.id) book else it }
     }
 
-    fun delete(bookId: Int?) {
+    fun delete(bookId: Int?): Boolean {
         if (bookId == null) {
-            return
+            return false
         }
 
         val hasBorrow = BorrowRepository.getBorrowsFromBook(bookId).isNotEmpty()
 
         if (hasBorrow) {
-            return
+            return false
         }
 
         bookList.removeIf { it.id == bookId }
+
+        return true
     }
 
     fun find(bookId: Int?): Book? {
