@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.librarymanagementsystem.data.model.Borrow
-import com.example.librarymanagementsystem.data.repository.BorrowRepository
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 
 class BorrowViewModel : ViewModel() {
 

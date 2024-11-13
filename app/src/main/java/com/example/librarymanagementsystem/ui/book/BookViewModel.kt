@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.librarymanagementsystem.data.model.Book
-import com.example.librarymanagementsystem.data.repository.BookRepository
+import com.example.librarymanagementsystem.data.repository.book.BookRepository
 
 class BookViewModel : ViewModel() {
 

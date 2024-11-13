@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.data.repository.UserRepository
+import com.example.librarymanagementsystem.data.repository.user.UserRepository
 
 class UserViewModel : ViewModel() {
 

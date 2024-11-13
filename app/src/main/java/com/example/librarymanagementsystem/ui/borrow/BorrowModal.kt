@@ -11,8 +11,8 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.data.repository.BookRepository
-import com.example.librarymanagementsystem.data.repository.UserRepository
+import com.example.librarymanagementsystem.data.repository.book.BookRepository
+import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import com.example.librarymanagementsystem.databinding.ModalBorrowBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
 import com.example.librarymanagementsystem.ui.base.BaseModal

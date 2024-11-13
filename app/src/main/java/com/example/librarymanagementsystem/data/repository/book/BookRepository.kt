@@ -1,12 +1,13 @@
-package com.example.librarymanagementsystem.data.repository
+package com.example.librarymanagementsystem.data.repository.book
 
 import com.example.librarymanagementsystem.data.model.Book
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 import kotlin.random.Random
 
 /**
  * Mock repository for books
  */
-object BookRepository {
+object BookRepository: BookInterface {
     private val mockTitles = listOf(
         "The Great Gatsby",
         "To Kill a Mockingbird",
@@ -33,13 +34,13 @@ object BookRepository {
 
     private val bookList = mutableListOf<Book>()
 
-    fun truncate() {
+    override fun truncate() {
         bookList.clear()
     }
 
-    fun getList(): List<Book> = bookList
+    override fun getList(): List<Book> = bookList
 
-    fun insert(book: Book) {
+    override fun insert(book: Book) {
         book.id = bookList.size + 1
 
         if (book.title.isNullOrEmpty()) {
@@ -49,7 +50,7 @@ object BookRepository {
         bookList.add(book)
     }
 
-    fun update(book: Book) {
+    override fun update(book: Book) {
         if (book.id == null || book.title.isNullOrEmpty()) {
             return
         }
@@ -57,7 +58,7 @@ object BookRepository {
         bookList.replaceAll { if (it.id == book.id) book else it }
     }
 
-    fun delete(bookId: Int?): Boolean {
+    override fun delete(bookId: Int?): Boolean {
         if (bookId == null) {
             return false
         }
@@ -73,11 +74,11 @@ object BookRepository {
         return true
     }
 
-    fun find(bookId: Int?): Book? {
+    override fun find(bookId: Int?): Book? {
         return bookList.find { it.id == bookId }
     }
 
-    fun getMockData(): Book {
+    override fun getMockData(): Book {
         val mockPosition = Random.nextInt(0, mockTitles.size - 1)
 
         return Book(

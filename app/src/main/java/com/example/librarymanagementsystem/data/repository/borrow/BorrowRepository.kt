@@ -1,20 +1,20 @@
-package com.example.librarymanagementsystem.data.repository
+package com.example.librarymanagementsystem.data.repository.borrow
 
 import com.example.librarymanagementsystem.data.model.Borrow
 
 /**
  * Mock repository for borrows
  */
-object BorrowRepository {
+object BorrowRepository: BorrowInterface {
     private val dataList = mutableListOf<Borrow>()
 
-    fun truncate() {
+    override fun truncate() {
         dataList.clear()
     }
 
-    fun getList(): List<Borrow> = dataList
+    override fun getList(): List<Borrow> = dataList
 
-    fun insert(item: Borrow) {
+    override fun insert(item: Borrow) {
         item.id = dataList.size + 1
 
         if ((item.bookId ?: 0) <= 0) {
@@ -27,7 +27,7 @@ object BorrowRepository {
         dataList.add(item)
     }
 
-    fun update(item: Borrow) {
+    override fun update(item: Borrow) {
         if (item.id == null) {
             return
         }
@@ -41,7 +41,7 @@ object BorrowRepository {
         dataList.replaceAll { if (it.id == item.id) item else it }
     }
 
-    fun delete(itemId: Int?) {
+    override fun delete(itemId: Int?) {
         if (itemId == null) {
             return
         }
@@ -49,7 +49,7 @@ object BorrowRepository {
         dataList.removeIf { it.id == itemId }
     }
 
-    fun getBorrowsFromUser(userId: Int?): List<Borrow> {
+    override fun getBorrowsFromUser(userId: Int?): List<Borrow> {
         if ((userId ?: 0) <= 0) {
             return emptyList()
         }
@@ -57,7 +57,7 @@ object BorrowRepository {
         return dataList.filter { it.userId == userId }
     }
 
-    fun getBorrowsFromBook(bookId: Int?): List<Borrow> {
+    override fun getBorrowsFromBook(bookId: Int?): List<Borrow> {
         if ((bookId ?: 0) <= 0) {
             return emptyList()
         }

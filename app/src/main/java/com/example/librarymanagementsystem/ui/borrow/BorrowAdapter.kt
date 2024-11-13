@@ -10,10 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
-import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
-import com.example.librarymanagementsystem.data.repository.BookRepository
-import com.example.librarymanagementsystem.data.repository.UserRepository
+import com.example.librarymanagementsystem.data.repository.book.BookRepository
+import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import javax.inject.Inject
 
 class BorrowAdapter @Inject constructor(

@@ -2,8 +2,8 @@ package com.example.librarymanagementsystem
 
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.data.repository.BorrowRepository
-import com.example.librarymanagementsystem.data.repository.UserRepository
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
+import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue

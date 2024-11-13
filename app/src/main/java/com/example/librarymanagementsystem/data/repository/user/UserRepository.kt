@@ -1,18 +1,19 @@
-package com.example.librarymanagementsystem.data.repository
+package com.example.librarymanagementsystem.data.repository.user
 
 import com.example.librarymanagementsystem.data.model.User
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 
-object UserRepository {
+object UserRepository: UserInterface {
 
     private val userList = mutableListOf<User>()
 
-    fun truncate() {
+    override fun truncate() {
         userList.clear()
     }
 
-    fun getList(): List<User> = userList
+    override fun getList(): List<User> = userList
 
-    fun insert(user: User) {
+    override fun insert(user: User) {
         user.id = userList.size + 1
 
         if (user.name.isNullOrEmpty()) {
@@ -22,7 +23,7 @@ object UserRepository {
         userList.add(user)
     }
 
-    fun update(user: User) {
+    override fun update(user: User) {
         if (user.name.isNullOrEmpty() || user.surname.isNullOrEmpty()) {
             return
         }
@@ -30,7 +31,7 @@ object UserRepository {
         userList.replaceAll { if (it.id == user.id) user else it }
     }
 
-    fun delete(user: User): Boolean {
+    override fun delete(user: User): Boolean {
         if (user.id == null) {
             return false
         }
@@ -46,7 +47,7 @@ object UserRepository {
         return true
     }
 
-    fun find(userId: Int?): User? {
+    override fun find(userId: Int?): User? {
         return userList.find { it.id == userId }
     }
 }
