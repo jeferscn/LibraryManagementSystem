@@ -26,27 +26,33 @@
         android:layout_marginTop="32dp"
         android:hint="@string/borrow_user">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextUserId"
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/autoCompleteUserId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords" />
+            android:padding="14dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="none"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/borrow_book">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextBookId"
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/autoCompleteBookId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords" />
+            android:padding="14dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:inputType="none"
+            tools:ignore="LabelFor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

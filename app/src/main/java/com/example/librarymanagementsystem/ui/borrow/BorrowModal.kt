@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
+import com.example.librarymanagementsystem.data.model.User
 import com.example.librarymanagementsystem.data.repository.BookRepository
 import com.example.librarymanagementsystem.data.repository.UserRepository
 import com.example.librarymanagementsystem.databinding.ModalBorrowBinding
@@ -21,6 +24,9 @@ class BorrowModal : BaseModal() {
     private val viewmodel by activityViewModels<BorrowViewModel>()
 
     private lateinit var borrowItem: Borrow
+
+    private val userList by lazy { UserRepository.getList() }
+    private val bookList by lazy { BookRepository.getList() }
 
     companion object {
         private const val BORROW_ID = "id"
@@ -46,7 +52,8 @@ class BorrowModal : BaseModal() {
 
         borrowItem = getBorrowItem()
 
-        setupBookData()
+        setupAdapters()
+        setupBorrowData()
 
         binding.btnSave.setSafeOnClickListener {
             submitData()
@@ -65,7 +72,46 @@ class BorrowModal : BaseModal() {
         }
     }
 
-    private fun setupBookData() {
+    private fun setupAdapters() {
+        val userAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            userList.map { it.toAdapterItem() }
+        )
+
+        val bookAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            bookList.map { it.toAdapterItem() }
+        )
+
+        binding.autoCompleteUserId.setAdapter(userAdapter)
+        binding.autoCompleteBookId.setAdapter(bookAdapter)
+
+        binding.autoCompleteUserId.setOnItemClickListener { _, _, position, _ ->
+            borrowItem.userId = userList[position].id ?: 0
+        }
+
+        binding.autoCompleteBookId.setOnItemClickListener { _, _, position, _ ->
+            borrowItem.bookId = bookList[position].id ?: 0
+        }
+
+        binding.autoCompleteUserId.setOnClickListener {
+            binding.autoCompleteUserId.showDropDown()
+        }
+        binding.autoCompleteBookId.setOnClickListener {
+            binding.autoCompleteBookId.showDropDown()
+        }
+
+        binding.autoCompleteUserId.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.autoCompleteUserId.showDropDown()
+        }
+        binding.autoCompleteBookId.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) binding.autoCompleteBookId.showDropDown()
+        }
+    }
+
+    private fun setupBorrowData() {
         val book = BookRepository.find(borrowItem.bookId)
         val user = UserRepository.find(borrowItem.userId)
 
@@ -73,21 +119,14 @@ class BorrowModal : BaseModal() {
             return
         }
 
-        binding.editTextUserId.setText(user.name)
-        binding.editTextBookId.setText(book.title)
+        binding.autoCompleteUserId.setText(user.toAdapterItem(), false)
+        binding.autoCompleteBookId.setText(book.toAdapterItem(), false)
     }
 
     private fun submitData() {
         if (!hasValidData()) {
-            Toast.makeText(requireContext(), getString(R.string.book_form_validation_error), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.borrow_form_validation_error), Toast.LENGTH_SHORT).show()
             return
-        }
-
-        runCatching {
-            borrowItem.userId = binding.editTextUserId.text.toString().toInt()
-        }
-        runCatching {
-            borrowItem.bookId = binding.editTextBookId.text.toString().toInt()
         }
 
         viewmodel.save(borrowItem)
@@ -108,9 +147,13 @@ class BorrowModal : BaseModal() {
     private fun isEditingItem() = (arguments?.getInt(BORROW_ID) ?: 0) > 0
 
     private fun hasValidData(): Boolean {
-        val hasUserSelected = binding.editTextUserId.text.toString().isNotBlank()
-        val hasBookSelected = binding.editTextBookId.text.toString().isNotBlank()
+        val hasUserSelected = binding.autoCompleteUserId.text.toString().isNotBlank()
+        val hasBookSelected = binding.autoCompleteBookId.text.toString().isNotBlank()
 
         return hasUserSelected && hasBookSelected
     }
+
+    private fun User.toAdapterItem(): String = "$id - $name"
+
+    private fun Book.toAdapterItem(): String = "$id - $title"
 }
