@@ -32,12 +32,8 @@ class UserModal : BaseModal() {
     private val viewmodel by activityViewModels<UserViewModel>()
     private lateinit var userItem: User
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ModalUserBinding.inflate(layoutInflater)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = ModalUserBinding.inflate(inflater, container, false)
         return binding.root
     }
 
