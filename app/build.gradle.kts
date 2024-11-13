@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlinAndroidKsp)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -61,6 +63,10 @@ dependencies {
     // Glide for image loading
     implementation(libs.glide)
     annotationProcessor(libs.glide.annotations)
+
+    // Dependency injection with Hilt
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
