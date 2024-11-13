@@ -6,14 +6,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.databinding.ActivityUserBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserBinding
 
     private val viewmodel by viewModels<UserViewModel>()
 
-    private val adapter by lazy { UserAdapter(emptyList()) }
+    @Inject lateinit var adapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

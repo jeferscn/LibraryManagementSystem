@@ -11,8 +11,9 @@ import com.example.librarymanagementsystem.databinding.AdapterUserBinding
 import com.example.librarymanagementsystem.data.model.User
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
 import com.example.librarymanagementsystem.ui.book.BookModal
+import javax.inject.Inject
 
-class UserAdapter(
+class UserAdapter @Inject constructor(
     private var userList: List<User>?
 ) : RecyclerView.Adapter<UserAdapter.ItemViewHolder>() {
 

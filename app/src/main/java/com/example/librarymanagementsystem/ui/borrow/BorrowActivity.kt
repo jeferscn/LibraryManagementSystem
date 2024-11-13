@@ -6,14 +6,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.databinding.ActivityBorrowBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BorrowActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBorrowBinding
 
     private val viewmodel by viewModels<BorrowViewModel>()
 
-    private val adapter by lazy { BorrowAdapter(emptyList()) }
+    @Inject lateinit var adapter: BorrowAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

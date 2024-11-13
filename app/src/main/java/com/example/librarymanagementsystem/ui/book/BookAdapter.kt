@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Book
+import javax.inject.Inject
 
-class BookAdapter(
+class BookAdapter @Inject constructor (
     private var bookList: List<Book>
 ) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 

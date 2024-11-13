@@ -14,8 +14,9 @@ import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.repository.BookRepository
 import com.example.librarymanagementsystem.data.repository.UserRepository
+import javax.inject.Inject
 
-class BorrowAdapter(
+class BorrowAdapter @Inject constructor(
     private var bookList: List<Borrow>
 ) : RecyclerView.Adapter<BorrowAdapter.BookViewHolder>() {
 

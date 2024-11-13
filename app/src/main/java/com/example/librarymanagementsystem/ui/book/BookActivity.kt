@@ -6,14 +6,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.librarymanagementsystem.databinding.ActivityBookBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BookActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBookBinding
 
     private val viewmodel by viewModels<BookViewModel>()
 
-    private val adapter by lazy { BookAdapter(emptyList()) }
+    @Inject lateinit var adapter: BookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
