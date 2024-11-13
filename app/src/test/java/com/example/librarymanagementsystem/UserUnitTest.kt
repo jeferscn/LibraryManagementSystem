@@ -1,8 +1,11 @@
 package com.example.librarymanagementsystem
 
+import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
+import com.example.librarymanagementsystem.data.repository.BorrowRepository
 import com.example.librarymanagementsystem.data.repository.UserRepository
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -81,5 +84,32 @@ class UserUnitTest {
 
         val userList = UserRepository.getList()
         assertEquals(1, userList.size)
+    }
+
+    @Test
+    fun findUserWithId() {
+        val user = User(name = "Jeferson", surname = "Pereira")
+        UserRepository.insert(user)
+
+        val item = UserRepository.find(1)
+        assertEquals("Jeferson", item?.name)
+        assertEquals("Pereira", item?.surname)
+    }
+
+    @Test
+    fun invalidDeleteUserWithBorrow() {
+        UserRepository.truncate()
+
+        UserRepository.insert(User(name = "Jeferson", surname = "Pereira"))
+
+        val item = UserRepository.find(1)
+        assertNotNull(item)
+
+        BorrowRepository.insert(Borrow(1, 1, 1))
+
+        UserRepository.delete(item ?: User())
+
+        val emptyList = UserRepository.getList()
+        assertEquals(1, emptyList.size)
     }
 }

@@ -35,6 +35,12 @@ object UserRepository {
             return
         }
 
+        val hasBorrow = BorrowRepository.getBorrowsFromUser(user.id).isNotEmpty()
+
+        if (hasBorrow) {
+            return
+        }
+
         userList.removeIf { it.id == user.id }
     }
 

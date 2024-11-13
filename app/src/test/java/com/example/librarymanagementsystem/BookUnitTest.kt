@@ -1,7 +1,9 @@
 package com.example.librarymanagementsystem
 
 import com.example.librarymanagementsystem.data.model.Book
+import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.repository.BookRepository
+import com.example.librarymanagementsystem.data.repository.BorrowRepository
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
@@ -18,9 +20,9 @@ class BookUnitTest {
         imageUrl: String? = null
     ) = Book(
         id = id ?: 1,
-        title = title ?: "TitleTest",
-        description = description ?: "DescriptionTest",
-        imageUrl = imageUrl ?: "ImageUrlTest"
+        title = title ?: "Title",
+        description = description ?: "Description",
+        imageUrl = imageUrl ?: "Image"
     )
 
     @Test
@@ -56,9 +58,9 @@ class BookUnitTest {
         assertNotNull(item)
 
         assertEquals(1, item?.id)
-        assertEquals("TitleTest", item?.title)
-        assertEquals("DescriptionTest", item?.description)
-        assertEquals("ImageUrlTest", item?.imageUrl)
+        assertEquals("Title", item?.title)
+        assertEquals("Description", item?.description)
+        assertEquals("Image", item?.imageUrl)
     }
 
     @Test
@@ -84,7 +86,7 @@ class BookUnitTest {
         val initialList = repository.getList()
         assertEquals(0, initialList.size)
 
-        repository.insert(getBookMock(null, "TitleTest", "", ""))
+        repository.insert(getBookMock(null, "Title", "", ""))
 
         val list = repository.getList()
         assertEquals(1, list.size)
@@ -93,7 +95,7 @@ class BookUnitTest {
         assertNotNull(item)
 
         assertEquals(1, item?.id)
-        assertEquals("TitleTest", item?.title)
+        assertEquals("Title", item?.title)
         assertEquals("", item?.description)
         assertEquals("", item?.imageUrl)
     }
@@ -153,5 +155,37 @@ class BookUnitTest {
 
         val emptyList = repository.getList()
         assertEquals(0, emptyList.size)
+    }
+
+    @Test
+    fun findBookWithId() {
+        repository.truncate()
+
+        repository.insert(getBookMock())
+
+        val item = repository.find(1)
+        assertNotNull(item)
+
+        assertEquals(1, item?.id)
+        assertEquals("Title", item?.title)
+        assertEquals("Description", item?.description)
+        assertEquals("Image", item?.imageUrl)
+    }
+
+    @Test
+    fun invalidDeleteBookBorrowed() {
+        repository.truncate()
+
+        repository.insert(getBookMock())
+
+        val item = repository.find(1)
+        assertNotNull(item)
+
+        BorrowRepository.insert(Borrow(1, 1, 1))
+
+        repository.delete(item?.id)
+
+        val emptyList = repository.getList()
+        assertEquals(1, emptyList.size)
     }
 }

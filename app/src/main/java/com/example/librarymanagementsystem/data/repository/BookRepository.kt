@@ -62,6 +62,12 @@ object BookRepository {
             return
         }
 
+        val hasBorrow = BorrowRepository.getBorrowsFromBook(bookId).isNotEmpty()
+
+        if (hasBorrow) {
+            return
+        }
+
         bookList.removeIf { it.id == bookId }
     }
 
