@@ -52,6 +52,17 @@ class UserModal : BaseModal() {
             submitData()
             dismiss()
         }
+
+        if (userItem.id == null) {
+            binding.btnDelete.visibility = View.INVISIBLE
+        } else {
+            binding.btnDelete.visibility = View.VISIBLE
+
+            binding.btnDelete.setSafeOnClickListener {
+                viewmodel.delete(userItem)
+                dismiss()
+            }
+        }
     }
 
     private fun setupUserData() {
