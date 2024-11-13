@@ -65,6 +65,10 @@ object BookRepository {
         bookList.removeIf { it.id == bookId }
     }
 
+    fun find(bookId: Int?): Book? {
+        return bookList.find { it.id == bookId }
+    }
+
     fun getMockData(): Book {
         val mockPosition = Random.nextInt(0, mockTitles.size - 1)
 

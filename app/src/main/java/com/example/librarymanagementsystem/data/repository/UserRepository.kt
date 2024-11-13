@@ -37,4 +37,8 @@ object UserRepository {
 
         userList.removeIf { it.id == user.id }
     }
+
+    fun find(userId: Int?): User? {
+        return userList.find { it.id == userId }
+    }
 }

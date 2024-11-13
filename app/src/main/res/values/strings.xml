@@ -10,6 +10,8 @@
     <string name="book_description_label">Descrição</string>
     <string name="book_image_url_label">URL da Imagem</string>
     <string name="borrow_username">Nome do Usuário</string>
+    <string name="borrow_user">Usuário</string>
+    <string name="borrow_book">Livro</string>
     <string name="button_save">Salvar</string>
     <string name="button_delete">Deletar</string>
     <string name="book_form_validation_error">Por favor, informe o título do livro</string>
