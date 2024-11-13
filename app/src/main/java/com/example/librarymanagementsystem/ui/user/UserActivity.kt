@@ -13,23 +13,31 @@ class UserActivity : AppCompatActivity() {
 
     private val viewmodel by viewModels<UserViewModel>()
 
+    private val adapter by lazy { UserAdapter(emptyList()) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityUserBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
-        binding.btnAddAction.setSafeOnClickListener {
-            UserModal().show(supportFragmentManager, UserModal::class.java.simpleName)
+        viewmodel.updateUserList()
+
+        setupInterface()
+    }
+
+    private fun setupInterface() {
+        val items = viewmodel.users.value
+        binding.listItems.adapter = adapter
+
+        viewmodel.users.observe(this) { users ->
+            setupEmptyListMessage(items.isNullOrEmpty())
+            adapter.submitList(users)
         }
 
-        viewmodel.users.observe(this) {
-            binding.listItems.apply {
-                val items = viewmodel.getItems()
-
-                setupEmptyListMessage(items.isEmpty())
-
-                adapter = UserAdapter(items)
-            }
+        binding.btnAddAction.setSafeOnClickListener {
+            UserModal.newInstance().show(supportFragmentManager, UserModal::class.java.simpleName)
         }
     }
 

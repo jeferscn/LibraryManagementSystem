@@ -13,6 +13,7 @@
     <string name="button_save">Salvar</string>
     <string name="button_delete">Deletar</string>
     <string name="book_form_validation_error">Por favor, informe o título do livro</string>
+    <string name="user_form_validation_error">Por favor, informe o nome e sobrenome do usuário</string>
     <string name="empty_book_list_hint">Nenhum livro adicionado ainda</string>
     <string name="empty_user_list_hint">Nenhum usuário adicionado ainda</string>
     <string name="empty_borrow_list_hint">Nenhum empréstimo registrado ainda</string>
