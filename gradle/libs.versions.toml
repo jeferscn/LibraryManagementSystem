@@ -16,12 +16,11 @@ activity-ktx = "1.9.3"
 fragment-ktx = "1.8.5"
 glide = "4.16.0"
 room = "2.6.1"
+mockk = "1.13.12"
+coroutines-test = "1.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
@@ -53,6 +52,13 @@ android-room = { group = "androidx.room", name = "room-runtime", version.ref = "
 android-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 android-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 android-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+
+# Tests
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+mockk-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

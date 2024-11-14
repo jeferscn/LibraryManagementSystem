@@ -2,61 +2,40 @@ package com.example.librarymanagementsystem
 
 import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
+import com.example.librarymanagementsystem.data.repository.book.BookDaoMock
 import com.example.librarymanagementsystem.data.repository.book.BookRepository
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowDaoMock
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
+import kotlinx.coroutines.test.runTest
 import org.junit.*
 
 class BookUnitTest {
 
-    private val repository by lazy { BookRepository(borrowRepository) }
-    private val borrowRepository by lazy { BorrowRepository() }
-
-    private fun getBookMock(
-        id: Int? = null,
-        title: String? = null,
-        description: String? = null,
-        imageUrl: String? = null
-    ) = Book(
-        id = id ?: 1,
-        title = title ?: "Title",
-        description = description ?: "Description",
-        imageUrl = imageUrl ?: "Image"
-    )
+    private val repository by lazy { BookRepository(BookDaoMock(), borrowRepository) }
+    private val borrowRepository by lazy { BorrowRepository(BorrowDaoMock()) }
 
     @Before
-    fun setUp() {
+    fun setUp() = runTest {
         repository.truncate()
         borrowRepository.truncate()
     }
 
     @Test
-    fun getListWithValues() {
-        repository.truncate()
-
-        val items = repository.getList().toMutableList()
-
-        items.add(getBookMock())
-
-        assertEquals(true, items.isNotEmpty())
-    }
-
-    @Test
-    fun getListWithoutValues() {
-        repository.truncate()
+    fun getListWithoutValues() = runTest {
         assertEquals(true, repository.getList().isEmpty())
     }
 
     @Test
-    fun addItemIntoList() {
-        repository.truncate()
+    fun addItemIntoList() = runTest {
+        val book = getBookMock()
 
         val initialList = repository.getList()
         assertEquals(0, initialList.size)
 
-        repository.insert(getBookMock())
+        repository.insert(book)
 
         val list = repository.getList()
         assertEquals(1, list.size)
@@ -71,9 +50,7 @@ class BookUnitTest {
     }
 
     @Test
-    fun addItemWithRequiredEmptyValuesIntoList() {
-        repository.truncate()
-
+    fun addItemWithRequiredEmptyValuesIntoList() = runTest {
         val initialList = repository.getList()
         assertEquals(0, initialList.size)
 
@@ -87,13 +64,13 @@ class BookUnitTest {
     }
 
     @Test
-    fun addItemWithRequiredTitleOnlyIntoList() {
-        repository.truncate()
+    fun addItemWithRequiredTitleOnlyIntoList() = runTest {
+        val book = getBookMock(null, "Title", "", "")
 
         val initialList = repository.getList()
         assertEquals(0, initialList.size)
 
-        repository.insert(getBookMock(null, "Title", "", ""))
+        repository.insert(book)
 
         val list = repository.getList()
         assertEquals(1, list.size)
@@ -108,13 +85,13 @@ class BookUnitTest {
     }
 
     @Test
-    fun removeItemAfterAddingIntoList() {
-        repository.truncate()
+    fun removeItemAfterAddingIntoList() = runTest {
+        val book = getBookMock(null)
 
         val initialList = repository.getList()
         assertEquals(0, initialList.size)
 
-        repository.insert(getBookMock(null))
+        repository.insert(book)
 
         val list = repository.getList()
         assertEquals(1, list.size)
@@ -130,9 +107,7 @@ class BookUnitTest {
     }
 
     @Test
-    fun removeItemAfterAddingWithFailureIntoList() {
-        repository.truncate()
-
+    fun removeItemAfterAddingWithFailureIntoList() = runTest {
         repository.insert(getBookMock(null, "", "", ""))
 
         val list = repository.getList()
@@ -145,9 +120,7 @@ class BookUnitTest {
     }
 
     @Test
-    fun removeItemWithEmptyList() {
-        repository.truncate()
-
+    fun removeItemWithEmptyList() = runTest {
         repository.delete(1)
 
         val emptyList = repository.getList()
@@ -155,9 +128,7 @@ class BookUnitTest {
     }
 
     @Test
-    fun removeItemWithInvalidPosition() {
-        repository.truncate()
-
+    fun removeItemWithInvalidPosition() = runTest {
         repository.delete(-1)
 
         val emptyList = repository.getList()
@@ -165,10 +136,10 @@ class BookUnitTest {
     }
 
     @Test
-    fun findBookWithId() {
-        repository.truncate()
+    fun findBookWithId() = runTest {
+        val book = getBookMock()
 
-        repository.insert(getBookMock())
+        repository.insert(book)
 
         val item = repository.find(1)
         assertNotNull(item)
@@ -180,15 +151,14 @@ class BookUnitTest {
     }
 
     @Test
-    fun invalidDeleteBookBorrowed() {
-        repository.truncate()
+    fun invalidDeleteBookBorrowed() = runTest {
+        val book = getBookMock()
 
-        repository.insert(getBookMock())
+        repository.insert(book)
 
         val item = repository.find(1)
         assertNotNull(item)
 
-        borrowRepository.truncate()
         borrowRepository.insert(Borrow(1, 1, 1))
 
         repository.delete(item?.id)
@@ -196,4 +166,16 @@ class BookUnitTest {
         val emptyList = repository.getList()
         assertEquals(1, emptyList.size)
     }
+
+    private fun getBookMock(
+        id: Int? = null,
+        title: String? = null,
+        description: String? = null,
+        imageUrl: String? = null
+    ) = Book(
+        id = id ?: 1,
+        title = title ?: "Title",
+        description = description ?: "Description",
+        imageUrl = imageUrl ?: "Image"
+    )
 }

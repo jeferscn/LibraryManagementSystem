@@ -1,33 +1,25 @@
 package com.example.librarymanagementsystem
 
 import com.example.librarymanagementsystem.data.model.Borrow
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowDaoMock
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
+import kotlinx.coroutines.test.runTest
 import org.junit.*
 
 class BorrowUnitTest {
 
-    private val repository by lazy { BorrowRepository() }
-
-    private fun getMockBorrow(
-        id: Int? = null,
-        bookId: Int? = null,
-        userId: Int? = null
-    ) = Borrow(
-        id = id ?: 1,
-        bookId = bookId ?: 1,
-        userId = userId ?: 1
-    )
+    private val repository by lazy { BorrowRepository(BorrowDaoMock()) }
 
     @Before
-    fun setUp() {
+    fun setUp() = runTest {
         repository.truncate()
     }
 
     @Test
-    fun getListWithValues() {
+    fun getListWithValues() = runTest {
         repository.truncate()
 
         val items = repository.getList().toMutableList()
@@ -38,13 +30,13 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun getListWithoutValues() {
+    fun getListWithoutValues() = runTest {
         repository.truncate()
         assertEquals(true, repository.getList().isEmpty())
     }
 
     @Test
-    fun addItemIntoList() {
+    fun addItemIntoList() = runTest {
         repository.truncate()
 
         val initialList = repository.getList()
@@ -64,7 +56,7 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun addItemWithRequiredEmptyValuesIntoList() {
+    fun addItemWithRequiredEmptyValuesIntoList() = runTest {
         repository.truncate()
 
         val initialList = repository.getList()
@@ -80,7 +72,7 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun removeItemAfterAddingIntoList() {
+    fun removeItemAfterAddingIntoList() = runTest {
         repository.truncate()
 
         val initialList = repository.getList()
@@ -102,7 +94,7 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun removeItemAfterAddingWithFailureIntoList() {
+    fun removeItemAfterAddingWithFailureIntoList() = runTest {
         repository.truncate()
 
         repository.insert(getMockBorrow(null, 0, 0))
@@ -117,7 +109,7 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun removeItemWithEmptyList() {
+    fun removeItemWithEmptyList() = runTest {
         repository.truncate()
 
         repository.delete(1)
@@ -127,7 +119,7 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun removeItemWithInvalidPosition() {
+    fun removeItemWithInvalidPosition() = runTest {
         repository.truncate()
 
         repository.delete(-1)
@@ -137,58 +129,68 @@ class BorrowUnitTest {
     }
 
     @Test
-    fun getBorrowsFromUser() {
+    fun getBorrowsFromUser() = runTest {
         repository.truncate()
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.hasBorrowsFromUser(1)
-        assertEquals(1, borrows.size)
+        val hasBorrows = repository.hasBorrowsFromUser(1)
+        assertEquals(true, hasBorrows)
     }
 
     @Test
-    fun getBorrowsFromUserWithInvalidUserId() {
+    fun getBorrowsFromUserWithInvalidUserId() = runTest {
         repository.truncate()
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.hasBorrowsFromUser(0)
-        assertEquals(0, borrows.size)
+        val hasBorrows = repository.hasBorrowsFromUser(0)
+        assertEquals(false, hasBorrows)
     }
 
     @Test
-    fun getBorrowsFromUserWithEmptyList() {
+    fun getBorrowsFromUserWithEmptyList() = runTest {
         repository.truncate()
 
-        val borrows = repository.hasBorrowsFromUser(1)
-        assertEquals(0, borrows.size)
+        val hasBorrows = repository.hasBorrowsFromUser(1)
+        assertEquals(false, hasBorrows)
     }
 
     @Test
-    fun getBorrowsFromBook() {
-        repository.truncate()
-
-        repository.insert(getMockBorrow(1, 1, 1))
-
-        val borrows = repository.hasBorrowsFromBook(1)
-        assertEquals(1, borrows.size)
-    }
-
-    @Test
-    fun getBorrowsFromBookWithInvalidBookId() {
+    fun getBorrowsFromBook() = runTest {
         repository.truncate()
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.hasBorrowsFromBook(0)
-        assertEquals(0, borrows.size)
+        val hasBorrows = repository.hasBorrowsFromBook(1)
+        assertEquals(true, hasBorrows)
     }
 
     @Test
-    fun getBorrowsFromBookWithEmptyList() {
+    fun getBorrowsFromBookWithInvalidBookId() = runTest {
         repository.truncate()
 
-        val borrows = repository.hasBorrowsFromBook(1)
-        assertEquals(0, borrows.size)
+        repository.insert(getMockBorrow(1, 1, 1))
+
+        val hasBorrows = repository.hasBorrowsFromBook(0)
+        assertEquals(false, hasBorrows)
     }
+
+    @Test
+    fun getBorrowsFromBookWithEmptyList() = runTest {
+        repository.truncate()
+
+        val hasBorrows = repository.hasBorrowsFromBook(1)
+        assertEquals(false, hasBorrows)
+    }
+
+    private fun getMockBorrow(
+        id: Int? = null,
+        bookId: Int? = null,
+        userId: Int? = null
+    ) = Borrow(
+        id = id ?: 1,
+        bookId = bookId ?: 1,
+        userId = userId ?: 1
+    )
 }
