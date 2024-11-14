@@ -11,22 +11,28 @@ import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
+import com.example.librarymanagementsystem.data.repository.book.BookInterface
 import com.example.librarymanagementsystem.data.repository.book.BookRepository
 import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import com.example.librarymanagementsystem.databinding.ModalBorrowBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
 import com.example.librarymanagementsystem.ui.base.BaseModal
+import com.example.librarymanagementsystem.ui.user.UserViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BorrowModal : BaseModal() {
 
     private lateinit var binding: ModalBorrowBinding
 
-    private val viewmodel by activityViewModels<BorrowViewModel>()
+    private val borrowViewmodel by activityViewModels<BorrowViewModel>()
 
     private lateinit var borrowItem: Borrow
+    @Inject lateinit var bookRepository: BookInterface
 
     private val userList by lazy { UserRepository.getList() }
-    private val bookList by lazy { BookRepository.getList() }
+    private val bookList: List<Book> by lazy { bookRepository.getList() }
 
     companion object {
         private const val BORROW_ID = "id"
@@ -66,7 +72,7 @@ class BorrowModal : BaseModal() {
             binding.btnDelete.visibility = View.VISIBLE
 
             binding.btnDelete.setSafeOnClickListener {
-                viewmodel.delete(borrowItem)
+                borrowViewmodel.delete(borrowItem)
                 dismiss()
             }
         }
@@ -112,7 +118,7 @@ class BorrowModal : BaseModal() {
     }
 
     private fun setupBorrowData() {
-        val book = BookRepository.find(borrowItem.bookId)
+        val book = bookRepository.find(borrowItem.bookId)
         val user = UserRepository.find(borrowItem.userId)
 
         if (book == null || user == null) {
@@ -129,7 +135,7 @@ class BorrowModal : BaseModal() {
             return
         }
 
-        viewmodel.save(borrowItem)
+        borrowViewmodel.save(borrowItem)
 
         dismiss()
     }

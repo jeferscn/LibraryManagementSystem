@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Book
-import com.example.librarymanagementsystem.data.repository.book.BookRepository
 import com.example.librarymanagementsystem.databinding.ModalBookBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
 import com.example.librarymanagementsystem.ui.base.BaseModal
@@ -97,7 +96,7 @@ class BookModal : BaseModal() {
             imageUrl = arguments?.getString(BOOK_IMAGE_URL)
         )
     } else {
-        BookRepository.getMockData()
+        viewmodel.getMockData()
     }
 
     private fun displayError(message: String) {

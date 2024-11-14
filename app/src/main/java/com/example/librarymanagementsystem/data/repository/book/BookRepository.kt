@@ -1,13 +1,18 @@
 package com.example.librarymanagementsystem.data.repository.book
 
 import com.example.librarymanagementsystem.data.model.Book
+import com.example.librarymanagementsystem.data.repository.Database
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.random.Random
 
 /**
  * Mock repository for books
  */
-object BookRepository: BookInterface {
+
+@Singleton
+class BookRepository @Inject constructor(): BookInterface {
     private val mockTitles = listOf(
         "The Great Gatsby",
         "To Kill a Mockingbird",
@@ -32,22 +37,21 @@ object BookRepository: BookInterface {
         "http://bookcoverarchive.com/wp-content/uploads/2016/03/A1Pim60eMZL.jpg"
     )
 
-    private val bookList = mutableListOf<Book>()
-
     override fun truncate() {
-        bookList.clear()
+        Database.books.clear()
     }
 
-    override fun getList(): List<Book> = bookList
+    override fun getList(): List<Book> = Database.books
 
     override fun insert(book: Book) {
-        book.id = bookList.size + 1
+        book.id = Database.books.size + 1
 
         if (book.title.isNullOrEmpty()) {
             return
         }
 
-        bookList.add(book)
+        //bookList.add(book)
+        Database.books.add(book)
     }
 
     override fun update(book: Book) {
@@ -55,7 +59,7 @@ object BookRepository: BookInterface {
             return
         }
 
-        bookList.replaceAll { if (it.id == book.id) book else it }
+        Database.books.replaceAll { if (it.id == book.id) book else it }
     }
 
     override fun delete(bookId: Int?): Boolean {
@@ -69,13 +73,13 @@ object BookRepository: BookInterface {
             return false
         }
 
-        bookList.removeIf { it.id == bookId }
+        Database.books.removeIf { it.id == bookId }
 
         return true
     }
 
     override fun find(bookId: Int?): Book? {
-        return bookList.find { it.id == bookId }
+        return Database.books.find { it.id == bookId }
     }
 
     override fun getMockData(): Book {

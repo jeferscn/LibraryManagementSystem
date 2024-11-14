@@ -11,6 +11,8 @@ class UserViewModel : ViewModel() {
     private val _users = MutableLiveData<List<User>>(listOf())
     val users: LiveData<List<User>> = _users
 
+    fun getUserList(): List<User> = UserRepository.getList()
+
     fun save(user: User) {
         if (user.id == null) {
             UserRepository.insert(user)

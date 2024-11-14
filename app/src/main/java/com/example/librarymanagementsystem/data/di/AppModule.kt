@@ -1,5 +1,7 @@
 package com.example.librarymanagementsystem.data.di
 
+import com.example.librarymanagementsystem.data.repository.book.BookInterface
+import com.example.librarymanagementsystem.data.repository.book.BookRepository
 import com.example.librarymanagementsystem.ui.book.BookAdapter
 import com.example.librarymanagementsystem.ui.borrow.BorrowAdapter
 import com.example.librarymanagementsystem.ui.user.UserAdapter
@@ -18,5 +20,11 @@ class AppModule {
     fun provideUserAdapter(): UserAdapter = UserAdapter(emptyList())
 
     @Provides
-    fun provideBorrowAdapter(): BorrowAdapter = BorrowAdapter(emptyList())
+    fun provideBorrowAdapter(): BorrowAdapter = BorrowAdapter(
+        emptyList(),
+        bookRepository = BookRepository()
+    )
+
+    @Provides
+    fun provideBookRepository(): BookInterface = BookRepository()
 }
