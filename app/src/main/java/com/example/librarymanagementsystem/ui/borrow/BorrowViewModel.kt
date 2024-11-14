@@ -39,11 +39,9 @@ class BorrowViewModel @Inject constructor(
         updateBorrowList()
     }
 
-    fun delete(book: Borrow) {
-        viewModelScope.launch {
-            borrowRepository?.delete(book.id)
-            updateBorrowList()
-        }
+    fun delete(book: Borrow) = viewModelScope.launch(ioDispatcher) {
+        borrowRepository?.delete(book.id)
+        updateBorrowList()
     }
 
     private suspend fun updateBorrowList() = withContext(ioDispatcher) {
