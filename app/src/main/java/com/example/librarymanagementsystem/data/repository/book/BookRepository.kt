@@ -38,11 +38,11 @@ class BookRepository @Inject constructor(
         database.truncate()
     }
 
-    override suspend  fun getList(): List<Book> = database.getAll()
+    override suspend fun getList(): List<Book> = database.getAll()
 
-    override suspend  fun find(bookId: Int?): Book? = database.findById(bookId)
+    override suspend fun find(bookId: Int?): Book? = database.findById(bookId)
 
-    override suspend  fun insert(book: Book) {
+    override suspend fun insert(book: Book) {
         if (book.title.isNullOrEmpty()) {
             return
         }
@@ -50,7 +50,7 @@ class BookRepository @Inject constructor(
         database.insert(book)
     }
 
-    override suspend  fun update(book: Book) {
+    override suspend fun update(book: Book) {
         if (book.id == null || book.title.isNullOrEmpty()) {
             return
         }
@@ -58,7 +58,7 @@ class BookRepository @Inject constructor(
         database.update(book)
     }
 
-    override suspend  fun delete(bookId: Int?): Boolean {
+    override suspend fun delete(bookId: Int?): Boolean {
         if (bookId == null) {
             return false
         }
@@ -71,7 +71,7 @@ class BookRepository @Inject constructor(
         return true
     }
 
-    override suspend  fun getMockData(): Book {
+    override suspend fun getMockData(): Book {
         val mockPosition = Random.nextInt(0, mockTitles.size - 1)
 
         return Book(
