@@ -13,6 +13,7 @@ import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
 import com.example.librarymanagementsystem.data.repository.book.BookInterface
 import com.example.librarymanagementsystem.data.repository.book.BookRepository
+import com.example.librarymanagementsystem.data.repository.user.UserInterface
 import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import com.example.librarymanagementsystem.databinding.ModalBorrowBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
@@ -30,8 +31,9 @@ class BorrowModal : BaseModal() {
 
     private lateinit var borrowItem: Borrow
     @Inject lateinit var bookRepository: BookInterface
+    @Inject lateinit var userRepository: UserInterface
 
-    private val userList by lazy { UserRepository.getList() }
+    private val userList by lazy { userRepository.getList() }
     private val bookList: List<Book> by lazy { bookRepository.getList() }
 
     companion object {
@@ -119,7 +121,7 @@ class BorrowModal : BaseModal() {
 
     private fun setupBorrowData() {
         val book = bookRepository.find(borrowItem.bookId)
-        val user = UserRepository.find(borrowItem.userId)
+        val user = userRepository.find(borrowItem.userId)
 
         if (book == null || user == null) {
             return

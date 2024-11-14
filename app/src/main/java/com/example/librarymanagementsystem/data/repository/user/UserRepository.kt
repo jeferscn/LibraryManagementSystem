@@ -2,25 +2,27 @@ package com.example.librarymanagementsystem.data.repository.user
 
 import com.example.librarymanagementsystem.data.model.User
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
+import com.example.librarymanagementsystem.data.repository.Database.users
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object UserRepository: UserInterface {
-
-    private val userList = mutableListOf<User>()
+@Singleton
+class UserRepository @Inject constructor(): UserInterface {
 
     override fun truncate() {
-        userList.clear()
+        users.clear()
     }
 
-    override fun getList(): List<User> = userList
+    override fun getList(): List<User> = users
 
     override fun insert(user: User) {
-        user.id = userList.size + 1
+        user.id = users.size + 1
 
         if (user.name.isNullOrEmpty()) {
             return
         }
 
-        userList.add(user)
+        users.add(user)
     }
 
     override fun update(user: User) {
@@ -28,7 +30,7 @@ object UserRepository: UserInterface {
             return
         }
 
-        userList.replaceAll { if (it.id == user.id) user else it }
+        users.replaceAll { if (it.id == user.id) user else it }
     }
 
     override fun delete(user: User): Boolean {
@@ -42,12 +44,12 @@ object UserRepository: UserInterface {
             return false
         }
 
-        userList.removeIf { it.id == user.id }
+        users.removeIf { it.id == user.id }
 
         return true
     }
 
     override fun find(userId: Int?): User? {
-        return userList.find { it.id == userId }
+        return users.find { it.id == userId }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.librarymanagementsystem.data.repository.book
 
 import com.example.librarymanagementsystem.data.model.Book
-import com.example.librarymanagementsystem.data.repository.Database
+import com.example.librarymanagementsystem.data.repository.Database.books
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,20 +38,19 @@ class BookRepository @Inject constructor(): BookInterface {
     )
 
     override fun truncate() {
-        Database.books.clear()
+        books.clear()
     }
 
-    override fun getList(): List<Book> = Database.books
+    override fun getList(): List<Book> = books
 
     override fun insert(book: Book) {
-        book.id = Database.books.size + 1
+        book.id = books.size + 1
 
         if (book.title.isNullOrEmpty()) {
             return
         }
 
-        //bookList.add(book)
-        Database.books.add(book)
+        books.add(book)
     }
 
     override fun update(book: Book) {
@@ -59,7 +58,7 @@ class BookRepository @Inject constructor(): BookInterface {
             return
         }
 
-        Database.books.replaceAll { if (it.id == book.id) book else it }
+        books.replaceAll { if (it.id == book.id) book else it }
     }
 
     override fun delete(bookId: Int?): Boolean {
@@ -73,13 +72,13 @@ class BookRepository @Inject constructor(): BookInterface {
             return false
         }
 
-        Database.books.removeIf { it.id == bookId }
+        books.removeIf { it.id == bookId }
 
         return true
     }
 
     override fun find(bookId: Int?): Book? {
-        return Database.books.find { it.id == bookId }
+        return books.find { it.id == bookId }
     }
 
     override fun getMockData(): Book {

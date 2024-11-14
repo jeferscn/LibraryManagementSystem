@@ -4,32 +4,37 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.data.repository.user.UserRepository
+import com.example.librarymanagementsystem.data.repository.user.UserInterface
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class UserViewModel : ViewModel() {
+@HiltViewModel
+class UserViewModel @Inject constructor(
+    private val userRepository: UserInterface
+) : ViewModel() {
 
     private val _users = MutableLiveData<List<User>>(listOf())
     val users: LiveData<List<User>> = _users
 
-    fun getUserList(): List<User> = UserRepository.getList()
+    fun getUserList(): List<User> = userRepository.getList()
 
     fun save(user: User) {
         if (user.id == null) {
-            UserRepository.insert(user)
+            userRepository.insert(user)
         } else {
-            UserRepository.update(user)
+            userRepository.update(user)
         }
 
         updateUserList()
     }
 
-    fun delete(user: User) = UserRepository.delete(user).also { success ->
+    fun delete(user: User) = userRepository.delete(user).also { success ->
         if (success) {
             updateUserList()
         }
     }
 
     fun updateUserList() {
-        _users.value = UserRepository.getList()
+        _users.value = userRepository.getList()
     }
 }

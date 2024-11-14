@@ -12,12 +12,13 @@ import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.repository.book.BookInterface
-import com.example.librarymanagementsystem.data.repository.user.UserRepository
+import com.example.librarymanagementsystem.data.repository.user.UserInterface
 import javax.inject.Inject
 
 class BorrowAdapter @Inject constructor(
     private var bookList: List<Borrow>,
-    private val bookRepository: BookInterface
+    private val bookRepository: BookInterface,
+    private val userRepository: UserInterface
 ) : RecyclerView.Adapter<BorrowAdapter.BookViewHolder>() {
 
     override fun getItemCount(): Int = bookList.size
@@ -45,7 +46,7 @@ class BorrowAdapter @Inject constructor(
 
         fun bind(borrow: Borrow) {
             val book = bookRepository.find(borrow.bookId)
-            val user = UserRepository.find(borrow.userId)
+            val user = userRepository.find(borrow.userId)
 
             if (book == null || user == null) {
                 return
