@@ -55,11 +55,13 @@ class UserModal : BaseModal() {
             binding.btnDelete.visibility = View.VISIBLE
 
             binding.btnDelete.setSafeOnClickListener {
-                if (!viewmodel.delete(userItem)) {
-                    displayError(getString(R.string.user_delete_error))
-                }
+                viewmodel.delete(userItem.id) { success ->
+                    if (!success) {
+                        displayError(getString(R.string.user_delete_error))
+                    }
 
-                dismiss()
+                    dismiss()
+                }
             }
         }
     }

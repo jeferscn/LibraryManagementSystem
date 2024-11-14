@@ -16,7 +16,8 @@ class BorrowActivity : AppCompatActivity() {
 
     private val viewmodel by viewModels<BorrowViewModel>()
 
-    @Inject lateinit var adapter: BorrowAdapter
+    @Inject
+    lateinit var adapter: BorrowAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

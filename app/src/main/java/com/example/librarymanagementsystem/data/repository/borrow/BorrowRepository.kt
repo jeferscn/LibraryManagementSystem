@@ -1,25 +1,21 @@
 package com.example.librarymanagementsystem.data.repository.borrow
 
 import com.example.librarymanagementsystem.data.model.Borrow
-import com.example.librarymanagementsystem.data.repository.Database.borrows
+import com.example.librarymanagementsystem.data.model.BorrowWithDetails
 import javax.inject.Inject
-import javax.inject.Singleton
 
-/**
- * Mock repository for borrows
- */
-@Singleton
-class BorrowRepository @Inject constructor(): BorrowInterface {
-
-    override fun truncate() {
-        borrows.clear()
+class BorrowRepository @Inject constructor(
+    private var database: BorrowDao
+): BorrowInterface {
+    override suspend fun truncate() {
+        database.truncate()
     }
 
-    override fun getList(): List<Borrow> = borrows
+    override suspend fun getList(): List<Borrow> = database.getAll()
 
-    override fun insert(item: Borrow) {
-        item.id = borrows.size + 1
+    override suspend fun find(itemId: Int?): Borrow? = database.findById(itemId)
 
+    override suspend fun insert(item: Borrow) {
         if ((item.bookId ?: 0) <= 0) {
             return
         }
@@ -27,10 +23,10 @@ class BorrowRepository @Inject constructor(): BorrowInterface {
             return
         }
 
-        borrows.add(item)
+        database.insert(item)
     }
 
-    override fun update(item: Borrow) {
+    override suspend fun update(item: Borrow) {
         if (item.id == null) {
             return
         }
@@ -41,30 +37,32 @@ class BorrowRepository @Inject constructor(): BorrowInterface {
             return
         }
 
-        borrows.replaceAll { if (it.id == item.id) item else it }
+        database.update(item)
     }
 
-    override fun delete(itemId: Int?) {
+    override suspend fun delete(itemId: Int?) {
         if (itemId == null) {
             return
         }
 
-        borrows.removeIf { it.id == itemId }
+        database.deleteById(itemId)
     }
 
-    override fun getBorrowsFromUser(userId: Int?): List<Borrow> {
-        if ((userId ?: 0) <= 0) {
-            return emptyList()
-        }
-
-        return borrows.filter { it.userId == userId }
-    }
-
-    override fun getBorrowsFromBook(bookId: Int?): List<Borrow> {
+    override suspend fun hasBorrowsFromBook(bookId: Int?): Boolean {
         if ((bookId ?: 0) <= 0) {
-            return emptyList()
+            return false
         }
 
-        return borrows.filter { it.bookId == bookId }
+        return database.getBorrowsFromBook(bookId).isNotEmpty()
     }
+
+    override suspend fun hasBorrowsFromUser(userId: Int?): Boolean {
+        if ((userId ?: 0) <= 0) {
+            return false
+        }
+
+        return database.getBorrowsFromUser(userId).isNotEmpty()
+    }
+
+    override suspend fun getListWithDetails(): List<BorrowWithDetails> = database.getAllBorrowsWithDetails()
 }

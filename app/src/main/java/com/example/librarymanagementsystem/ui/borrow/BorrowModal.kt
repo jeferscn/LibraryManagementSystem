@@ -7,19 +7,20 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.librarymanagementsystem.R
+import com.example.librarymanagementsystem.data.di.IoDispatcher
 import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
 import com.example.librarymanagementsystem.data.repository.book.BookInterface
-import com.example.librarymanagementsystem.data.repository.book.BookRepository
 import com.example.librarymanagementsystem.data.repository.user.UserInterface
-import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import com.example.librarymanagementsystem.databinding.ModalBorrowBinding
 import com.example.librarymanagementsystem.extension.setSafeOnClickListener
 import com.example.librarymanagementsystem.ui.base.BaseModal
-import com.example.librarymanagementsystem.ui.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,11 +31,16 @@ class BorrowModal : BaseModal() {
     private val borrowViewmodel by activityViewModels<BorrowViewModel>()
 
     private lateinit var borrowItem: Borrow
-    @Inject lateinit var bookRepository: BookInterface
-    @Inject lateinit var userRepository: UserInterface
 
-    private val userList by lazy { userRepository.getList() }
-    private val bookList: List<Book> by lazy { bookRepository.getList() }
+    @Inject
+    lateinit var bookRepository: BookInterface
+
+    @Inject
+    lateinit var userRepository: UserInterface
+
+    @Inject
+    @IoDispatcher
+    lateinit var ioDispatcher: CoroutineDispatcher
 
     companion object {
         private const val BORROW_ID = "id"
@@ -60,8 +66,13 @@ class BorrowModal : BaseModal() {
 
         borrowItem = getBorrowItem()
 
-        setupAdapters()
-        setupBorrowData()
+        lifecycleScope.launch(ioDispatcher) {
+            val userList = userRepository.getList()
+            val bookList = bookRepository.getList()
+
+            setupAdapters(userList, bookList)
+            setupBorrowData()
+        }
 
         binding.btnSave.setSafeOnClickListener {
             submitData()
@@ -80,7 +91,7 @@ class BorrowModal : BaseModal() {
         }
     }
 
-    private fun setupAdapters() {
+    private fun setupAdapters(userList: List<User> = emptyList(), bookList: List<Book> = emptyList()) {
         val userAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
@@ -93,42 +104,48 @@ class BorrowModal : BaseModal() {
             bookList.map { it.toAdapterItem() }
         )
 
-        binding.autoCompleteUserId.setAdapter(userAdapter)
-        binding.autoCompleteBookId.setAdapter(bookAdapter)
+        lifecycleScope.launch {
+            binding.autoCompleteUserId.setAdapter(userAdapter)
+            binding.autoCompleteBookId.setAdapter(bookAdapter)
 
-        binding.autoCompleteUserId.setOnItemClickListener { _, _, position, _ ->
-            borrowItem.userId = userList[position].id ?: 0
-        }
+            binding.autoCompleteUserId.setOnItemClickListener { _, _, position, _ ->
+                borrowItem.userId = userList[position].id ?: 0
+            }
 
-        binding.autoCompleteBookId.setOnItemClickListener { _, _, position, _ ->
-            borrowItem.bookId = bookList[position].id ?: 0
-        }
+            binding.autoCompleteBookId.setOnItemClickListener { _, _, position, _ ->
+                borrowItem.bookId = bookList[position].id ?: 0
+            }
 
-        binding.autoCompleteUserId.setOnClickListener {
-            binding.autoCompleteUserId.showDropDown()
-        }
-        binding.autoCompleteBookId.setOnClickListener {
-            binding.autoCompleteBookId.showDropDown()
-        }
+            binding.autoCompleteUserId.setOnClickListener {
+                binding.autoCompleteUserId.showDropDown()
+            }
+            binding.autoCompleteBookId.setOnClickListener {
+                binding.autoCompleteBookId.showDropDown()
+            }
 
-        binding.autoCompleteUserId.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) binding.autoCompleteUserId.showDropDown()
-        }
-        binding.autoCompleteBookId.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) binding.autoCompleteBookId.showDropDown()
+            binding.autoCompleteUserId.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) binding.autoCompleteUserId.showDropDown()
+            }
+            binding.autoCompleteBookId.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) binding.autoCompleteBookId.showDropDown()
+            }
         }
     }
 
     private fun setupBorrowData() {
-        val book = bookRepository.find(borrowItem.bookId)
-        val user = userRepository.find(borrowItem.userId)
+        lifecycleScope.launch(ioDispatcher) {
+            val book = bookRepository.find(borrowItem.bookId)
+            val user = userRepository.find(borrowItem.userId)
 
-        if (book == null || user == null) {
-            return
+            if (book == null || user == null) {
+                return@launch
+            }
+
+            lifecycleScope.launch {
+                binding.autoCompleteUserId.setText(user.toAdapterItem(), false)
+                binding.autoCompleteBookId.setText(book.toAdapterItem(), false)
+            }
         }
-
-        binding.autoCompleteUserId.setText(user.toAdapterItem(), false)
-        binding.autoCompleteBookId.setText(book.toAdapterItem(), false)
     }
 
     private fun submitData() {

@@ -3,10 +3,10 @@ package com.example.librarymanagementsystem.data.repository.user
 import com.example.librarymanagementsystem.data.model.User
 
 interface UserInterface {
-    fun truncate()
-    fun getList(): List<User>
-    fun insert(user: User)
-    fun update(user: User)
-    fun delete(user: User): Boolean
-    fun find(userId: Int?): User?
+    suspend fun truncate()
+    suspend fun getList(): List<User>
+    suspend fun insert(user: User)
+    suspend fun update(user: User)
+    suspend fun delete(userId: Int?): Boolean
+    suspend fun find(userId: Int?): User?
 }

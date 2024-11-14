@@ -1,7 +1,12 @@
 package com.example.librarymanagementsystem.data.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Borrow(
-    var id: Int? = null,
-    var bookId: Int? = null,
-    var userId: Int? = null
+    @PrimaryKey(autoGenerate = true) var id: Int? = null,
+    @ColumnInfo(name = "book_id") var bookId: Int? = null,
+    @ColumnInfo(name = "user_id") var userId: Int? = null,
 )

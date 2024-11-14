@@ -1,18 +1,12 @@
 package com.example.librarymanagementsystem.data.repository.book
 
 import com.example.librarymanagementsystem.data.model.Book
-import com.example.librarymanagementsystem.data.repository.Database.books
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowInterface
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.random.Random
 
-/**
- * Mock repository for books
- */
-
-@Singleton
 class BookRepository @Inject constructor(
+    private var database: BookDao,
     private var borrowRepository: BorrowInterface
 ): BookInterface {
 
@@ -40,51 +34,44 @@ class BookRepository @Inject constructor(
         "http://bookcoverarchive.com/wp-content/uploads/2016/03/A1Pim60eMZL.jpg"
     )
 
-    override fun truncate() {
-        books.clear()
+    override suspend fun truncate() {
+        database.truncate()
     }
 
-    override fun getList(): List<Book> = books
+    override suspend  fun getList(): List<Book> = database.getAll()
 
-    override fun insert(book: Book) {
-        book.id = books.size + 1
+    override suspend  fun find(bookId: Int?): Book? = database.findById(bookId)
 
+    override suspend  fun insert(book: Book) {
         if (book.title.isNullOrEmpty()) {
             return
         }
 
-        books.add(book)
+        database.insert(book)
     }
 
-    override fun update(book: Book) {
+    override suspend  fun update(book: Book) {
         if (book.id == null || book.title.isNullOrEmpty()) {
             return
         }
 
-        books.replaceAll { if (it.id == book.id) book else it }
+        database.update(book)
     }
 
-    override fun delete(bookId: Int?): Boolean {
+    override suspend  fun delete(bookId: Int?): Boolean {
         if (bookId == null) {
             return false
         }
-
-        val hasBorrow = borrowRepository.getBorrowsFromBook(bookId).isNotEmpty()
-
-        if (hasBorrow) {
+        if (borrowRepository.hasBorrowsFromBook(bookId)) {
             return false
         }
 
-        books.removeIf { it.id == bookId }
+        database.deleteById(bookId)
 
         return true
     }
 
-    override fun find(bookId: Int?): Book? {
-        return books.find { it.id == bookId }
-    }
-
-    override fun getMockData(): Book {
+    override suspend  fun getMockData(): Book {
         val mockPosition = Random.nextInt(0, mockTitles.size - 1)
 
         return Book(

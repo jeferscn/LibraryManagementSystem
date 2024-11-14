@@ -1,13 +1,16 @@
 package com.example.librarymanagementsystem.data.repository.borrow
 
 import com.example.librarymanagementsystem.data.model.Borrow
+import com.example.librarymanagementsystem.data.model.BorrowWithDetails
 
 interface BorrowInterface {
-    fun truncate()
-    fun getList(): List<Borrow>
-    fun insert(item: Borrow)
-    fun update(item: Borrow)
-    fun delete(itemId: Int?)
-    fun getBorrowsFromUser(userId: Int?): List<Borrow>
-    fun getBorrowsFromBook(bookId: Int?): List<Borrow>
+    suspend fun truncate()
+    suspend fun getList(): List<Borrow>
+    suspend fun getListWithDetails(): List<BorrowWithDetails>
+    suspend fun insert(item: Borrow)
+    suspend fun update(item: Borrow)
+    suspend fun delete(itemId: Int?)
+    suspend fun find(itemId: Int?): Borrow?
+    suspend fun hasBorrowsFromUser(userId: Int?): Boolean
+    suspend fun hasBorrowsFromBook(bookId: Int?): Boolean
 }

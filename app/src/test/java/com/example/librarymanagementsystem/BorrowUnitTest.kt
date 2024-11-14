@@ -142,7 +142,7 @@ class BorrowUnitTest {
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.getBorrowsFromUser(1)
+        val borrows = repository.hasBorrowsFromUser(1)
         assertEquals(1, borrows.size)
     }
 
@@ -152,7 +152,7 @@ class BorrowUnitTest {
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.getBorrowsFromUser(0)
+        val borrows = repository.hasBorrowsFromUser(0)
         assertEquals(0, borrows.size)
     }
 
@@ -160,7 +160,7 @@ class BorrowUnitTest {
     fun getBorrowsFromUserWithEmptyList() {
         repository.truncate()
 
-        val borrows = repository.getBorrowsFromUser(1)
+        val borrows = repository.hasBorrowsFromUser(1)
         assertEquals(0, borrows.size)
     }
 
@@ -170,7 +170,7 @@ class BorrowUnitTest {
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.getBorrowsFromBook(1)
+        val borrows = repository.hasBorrowsFromBook(1)
         assertEquals(1, borrows.size)
     }
 
@@ -180,7 +180,7 @@ class BorrowUnitTest {
 
         repository.insert(getMockBorrow(1, 1, 1))
 
-        val borrows = repository.getBorrowsFromBook(0)
+        val borrows = repository.hasBorrowsFromBook(0)
         assertEquals(0, borrows.size)
     }
 
@@ -188,7 +188,7 @@ class BorrowUnitTest {
     fun getBorrowsFromBookWithEmptyList() {
         repository.truncate()
 
-        val borrows = repository.getBorrowsFromBook(1)
+        val borrows = repository.hasBorrowsFromBook(1)
         assertEquals(0, borrows.size)
     }
 }

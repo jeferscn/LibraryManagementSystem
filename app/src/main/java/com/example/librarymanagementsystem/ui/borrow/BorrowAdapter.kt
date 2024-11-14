@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.librarymanagementsystem.R
 import com.example.librarymanagementsystem.data.model.Borrow
-import com.example.librarymanagementsystem.data.repository.book.BookInterface
-import com.example.librarymanagementsystem.data.repository.user.UserInterface
+import com.example.librarymanagementsystem.data.model.BorrowWithDetails
 import javax.inject.Inject
 
 class BorrowAdapter @Inject constructor(
-    private var bookList: List<Borrow>,
-    private val bookRepository: BookInterface,
-    private val userRepository: UserInterface
+    private var bookList: List<BorrowWithDetails>
 ) : RecyclerView.Adapter<BorrowAdapter.BookViewHolder>() {
 
     override fun getItemCount(): Int = bookList.size
@@ -33,7 +30,7 @@ class BorrowAdapter @Inject constructor(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitList(list: List<Borrow>) {
+    fun submitList(list: List<BorrowWithDetails>) {
         bookList = list
         notifyDataSetChanged()
     }
@@ -44,9 +41,10 @@ class BorrowAdapter @Inject constructor(
         private val descriptionTextView: TextView = itemView.findViewById(R.id.textViewBookDescription)
         private val imageView: ImageView = itemView.findViewById(R.id.imageViewBookCover)
 
-        fun bind(borrow: Borrow) {
-            val book = bookRepository.find(borrow.bookId)
-            val user = userRepository.find(borrow.userId)
+        fun bind(borrowWithDetails: BorrowWithDetails) {
+            val borrow = borrowWithDetails.borrow
+            val book = borrowWithDetails.book
+            val user = borrowWithDetails.user
 
             if (book == null || user == null) {
                 return

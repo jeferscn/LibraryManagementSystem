@@ -59,11 +59,13 @@ class BookModal : BaseModal() {
             binding.btnDelete.visibility = View.VISIBLE
 
             binding.btnDelete.setSafeOnClickListener {
-                if (!viewmodel.delete(bookItem)) {
-                    displayError(getString(R.string.book_delete_error))
-                }
+                viewmodel.delete(bookItem) { success ->
+                    if (!success) {
+                        displayError(getString(R.string.book_delete_error))
+                    }
 
-                dismiss()
+                    dismiss()
+                }
             }
         }
     }

@@ -16,7 +16,8 @@ class UserActivity : AppCompatActivity() {
 
     private val viewmodel by viewModels<UserViewModel>()
 
-    @Inject lateinit var adapter: UserAdapter
+    @Inject
+    lateinit var adapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +26,16 @@ class UserActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        viewmodel.updateUserList()
+        viewmodel.setup()
 
         setupInterface()
     }
 
     private fun setupInterface() {
-        val items = viewmodel.users.value
         binding.listItems.adapter = adapter
 
         viewmodel.users.observe(this) { users ->
-            setupEmptyListMessage(items.isNullOrEmpty())
+            setupEmptyListMessage(users.isNullOrEmpty())
             adapter.submitList(users)
         }
 

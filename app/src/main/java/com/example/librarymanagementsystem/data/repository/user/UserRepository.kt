@@ -1,57 +1,47 @@
 package com.example.librarymanagementsystem.data.repository.user
 
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.data.repository.Database.users
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowInterface
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class UserRepository @Inject constructor(
+    private var database: UserDao,
     private var borrowRepository: BorrowInterface
 ): UserInterface {
-
-    override fun truncate() {
-        users.clear()
+    override suspend fun truncate() {
+        database.truncate()
     }
 
-    override fun getList(): List<User> = users
+    override suspend fun getList(): List<User> = database.getAll()
 
-    override fun insert(user: User) {
-        user.id = users.size + 1
+    override suspend fun find(userId: Int?): User? = database.findById(userId)
 
+    override suspend fun insert(user: User) {
         if (user.name.isNullOrEmpty()) {
             return
         }
 
-        users.add(user)
+        database.insert(user)
     }
 
-    override fun update(user: User) {
+    override suspend fun update(user: User) {
         if (user.name.isNullOrEmpty() || user.surname.isNullOrEmpty()) {
             return
         }
 
-        users.replaceAll { if (it.id == user.id) user else it }
+        database.update(user)
     }
 
-    override fun delete(user: User): Boolean {
-        if (user.id == null) {
+    override suspend fun delete(userId: Int?): Boolean {
+        if (userId == null) {
+            return false
+        }
+        if (borrowRepository.hasBorrowsFromUser(userId)) {
             return false
         }
 
-        val hasBorrow = borrowRepository.getBorrowsFromUser(user.id).isNotEmpty()
-
-        if (hasBorrow) {
-            return false
-        }
-
-        users.removeIf { it.id == user.id }
+        database.deleteById(userId)
 
         return true
-    }
-
-    override fun find(userId: Int?): User? {
-        return users.find { it.id == userId }
     }
 }

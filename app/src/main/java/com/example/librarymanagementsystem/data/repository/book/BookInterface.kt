@@ -3,11 +3,11 @@ package com.example.librarymanagementsystem.data.repository.book
 import com.example.librarymanagementsystem.data.model.Book
 
 interface BookInterface  {
-    fun truncate()
-    fun getList(): List<Book>
-    fun insert(book: Book)
-    fun update(book: Book)
-    fun delete(bookId: Int?): Boolean
-    fun find(bookId: Int?): Book?
-    fun getMockData(): Book
+    suspend fun truncate()
+    suspend fun getList(): List<Book>
+    suspend fun insert(book: Book)
+    suspend fun update(book: Book)
+    suspend fun delete(bookId: Int?): Boolean
+    suspend fun find(bookId: Int?): Book?
+    suspend fun getMockData(): Book
 }
