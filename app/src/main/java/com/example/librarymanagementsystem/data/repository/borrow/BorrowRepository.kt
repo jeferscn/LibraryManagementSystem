@@ -2,11 +2,14 @@ package com.example.librarymanagementsystem.data.repository.borrow
 
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.repository.Database.borrows
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Mock repository for borrows
  */
-object BorrowRepository: BorrowInterface {
+@Singleton
+class BorrowRepository @Inject constructor(): BorrowInterface {
 
     override fun truncate() {
         borrows.clear()

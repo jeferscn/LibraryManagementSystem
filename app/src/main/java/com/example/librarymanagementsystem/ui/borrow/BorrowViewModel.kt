@@ -4,9 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.librarymanagementsystem.data.model.Borrow
-import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowInterface
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class BorrowViewModel : ViewModel() {
+@HiltViewModel
+class BorrowViewModel @Inject constructor(
+    private val borrowRepository: BorrowInterface?
+): ViewModel() {
 
     private val _borrowList = MutableLiveData<List<Borrow>>()
     val borrowList: LiveData<List<Borrow>> = _borrowList
@@ -17,20 +22,20 @@ class BorrowViewModel : ViewModel() {
 
     fun save(book: Borrow) {
         if (book.id == null) {
-            BorrowRepository.insert(book)
+            borrowRepository?.insert(book)
         } else {
-            BorrowRepository.update(book)
+            borrowRepository?.update(book)
         }
 
         updateBorrowList()
     }
 
     fun delete(book: Borrow) {
-        BorrowRepository.delete(book.id)
+        borrowRepository?.delete(book.id)
         updateBorrowList()
     }
 
     private fun updateBorrowList() {
-        _borrowList.value = BorrowRepository.getList()
+        _borrowList.value = borrowRepository?.getList()
     }
 }

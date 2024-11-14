@@ -2,7 +2,7 @@ package com.example.librarymanagementsystem.data.repository.book
 
 import com.example.librarymanagementsystem.data.model.Book
 import com.example.librarymanagementsystem.data.repository.Database.books
-import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowInterface
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -12,7 +12,10 @@ import kotlin.random.Random
  */
 
 @Singleton
-class BookRepository @Inject constructor(): BookInterface {
+class BookRepository @Inject constructor(
+    private var borrowRepository: BorrowInterface
+): BookInterface {
+
     private val mockTitles = listOf(
         "The Great Gatsby",
         "To Kill a Mockingbird",
@@ -66,7 +69,7 @@ class BookRepository @Inject constructor(): BookInterface {
             return false
         }
 
-        val hasBorrow = BorrowRepository.getBorrowsFromBook(bookId).isNotEmpty()
+        val hasBorrow = borrowRepository.getBorrowsFromBook(bookId).isNotEmpty()
 
         if (hasBorrow) {
             return false

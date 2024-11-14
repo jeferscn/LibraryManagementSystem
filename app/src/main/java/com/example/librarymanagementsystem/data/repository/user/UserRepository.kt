@@ -1,13 +1,15 @@
 package com.example.librarymanagementsystem.data.repository.user
 
 import com.example.librarymanagementsystem.data.model.User
-import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 import com.example.librarymanagementsystem.data.repository.Database.users
+import com.example.librarymanagementsystem.data.repository.borrow.BorrowInterface
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserRepository @Inject constructor(): UserInterface {
+class UserRepository @Inject constructor(
+    private var borrowRepository: BorrowInterface
+): UserInterface {
 
     override fun truncate() {
         users.clear()
@@ -38,7 +40,7 @@ class UserRepository @Inject constructor(): UserInterface {
             return false
         }
 
-        val hasBorrow = BorrowRepository.getBorrowsFromUser(user.id).isNotEmpty()
+        val hasBorrow = borrowRepository.getBorrowsFromUser(user.id).isNotEmpty()
 
         if (hasBorrow) {
             return false
