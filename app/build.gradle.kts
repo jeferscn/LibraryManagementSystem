@@ -41,34 +41,47 @@ android {
 }
 
 dependencies {
+    // Core Android dependencies
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-    // Kotlin dependencies
-    implementation(platform(libs.kotlin.bom))
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    implementation(libs.kotlin.reflect)
-
-    // Lifecycle dependencies
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // Activity and Fragment dependencies
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
 
-    // Glide for image loading
+    // Kotlin and Coroutines dependencies
+    implementation(platform(libs.kotlin.bom))
+    implementation(libs.kotlin.reflect)
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+
+    // Lifecycle and ViewModel dependencies
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // Image loading with Glide
     implementation(libs.glide)
     annotationProcessor(libs.glide.annotations)
 
-    // Dependency injection with Hilt
+    // Dependency Injection with Hilt
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.compiler)
 
+    // Database dependencies (Room)
+    implementation(libs.android.room)
+    implementation(libs.android.room.ktx)
+    ksp(libs.android.room.compiler)
+
+    // Unit Testing dependencies
     testImplementation(libs.junit)
+    testImplementation(libs.android.room.testing)
+
+    // Instrumented Testing dependencies
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+

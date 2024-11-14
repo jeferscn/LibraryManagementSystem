@@ -15,6 +15,7 @@ lifecycle = "2.8.7"
 activity-ktx = "1.9.3"
 fragment-ktx = "1.8.5"
 glide = "4.16.0"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,6 +47,12 @@ glide-annotations = { group = "com.github.bumptech.glide", name = "annotations",
 # Dependency Injection
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 dagger-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
+
+# Database
+android-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+android-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+android-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+android-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
