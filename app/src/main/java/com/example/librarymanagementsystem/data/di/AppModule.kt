@@ -32,15 +32,15 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideBookDatabase(database: AppDatabase): BookDao = database.bookDao()
+    fun provideBookDatabase(database: AppDatabase): BookDao = database.getBookDao()
 
     @Singleton
     @Provides
-    fun provideUserDatabase(database: AppDatabase): UserDao = database.userDao()
+    fun provideUserDatabase(database: AppDatabase): UserDao = database.getUserDao()
 
     @Singleton
     @Provides
-    fun provideBorrowDatabase(database: AppDatabase): BorrowDao = database.borrowDao()
+    fun provideBorrowDatabase(database: AppDatabase): BorrowDao = database.getBorrowDao()
 
     @Provides
     fun provideBookRepository(

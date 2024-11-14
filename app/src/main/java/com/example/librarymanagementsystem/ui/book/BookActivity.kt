@@ -16,7 +16,8 @@ class BookActivity : AppCompatActivity() {
 
     private val viewmodel by viewModels<BookViewModel>()
 
-    @Inject lateinit var adapter: BookAdapter
+    @Inject
+    lateinit var adapter: BookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

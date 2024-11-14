@@ -32,9 +32,9 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun bookDao(): BookDao
+    abstract fun getBookDao(): BookDao
 
-    abstract fun userDao(): UserDao
+    abstract fun getUserDao(): UserDao
 
-    abstract fun borrowDao(): BorrowDao
+    abstract fun getBorrowDao(): BorrowDao
 }
