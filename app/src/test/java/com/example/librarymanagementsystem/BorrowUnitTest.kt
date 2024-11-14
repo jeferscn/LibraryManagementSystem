@@ -9,7 +9,7 @@ import org.junit.*
 
 class BorrowUnitTest {
 
-    private val repository by lazy { BorrowRepository }
+    private val repository by lazy { BorrowRepository() }
 
     private fun getMockBorrow(
         id: Int? = null,
@@ -20,6 +20,11 @@ class BorrowUnitTest {
         bookId = bookId ?: 1,
         userId = userId ?: 1
     )
+
+    @Before
+    fun setUp() {
+        repository.truncate()
+    }
 
     @Test
     fun getListWithValues() {

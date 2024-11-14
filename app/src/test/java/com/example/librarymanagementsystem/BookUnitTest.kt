@@ -7,11 +7,12 @@ import com.example.librarymanagementsystem.data.repository.borrow.BorrowReposito
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
-import org.junit.Test
+import org.junit.*
 
 class BookUnitTest {
 
-    private val repository by lazy { BookRepository }
+    private val repository by lazy { BookRepository(borrowRepository) }
+    private val borrowRepository by lazy { BorrowRepository() }
 
     private fun getBookMock(
         id: Int? = null,
@@ -24,6 +25,12 @@ class BookUnitTest {
         description = description ?: "Description",
         imageUrl = imageUrl ?: "Image"
     )
+
+    @Before
+    fun setUp() {
+        repository.truncate()
+        borrowRepository.truncate()
+    }
 
     @Test
     fun getListWithValues() {
@@ -181,7 +188,8 @@ class BookUnitTest {
         val item = repository.find(1)
         assertNotNull(item)
 
-        BorrowRepository.insert(Borrow(1, 1, 1))
+        borrowRepository.truncate()
+        borrowRepository.insert(Borrow(1, 1, 1))
 
         repository.delete(item?.id)
 

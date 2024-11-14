@@ -2,27 +2,34 @@ package com.example.librarymanagementsystem
 
 import com.example.librarymanagementsystem.data.model.Borrow
 import com.example.librarymanagementsystem.data.model.User
+import com.example.librarymanagementsystem.data.repository.book.BookRepository
 import com.example.librarymanagementsystem.data.repository.borrow.BorrowRepository
 import com.example.librarymanagementsystem.data.repository.user.UserRepository
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runners.Parameterized.BeforeParam
 
 class UserUnitTest {
 
+    private val repository by lazy { UserRepository(borrowRepository) }
+    private val borrowRepository by lazy { BorrowRepository() }
+
     @Before
     fun setUp() {
-        UserRepository.truncate()
+        repository.truncate()
+        borrowRepository.truncate()
     }
 
     @Test
     fun `test insert valid user`() {
         val user = User(name = "Jeferson", surname = "Pereira")
-        UserRepository.insert(user)
+        repository.insert(user)
 
-        val userList = UserRepository.getList()
+        val userList = repository.getList()
         assertEquals(1, userList.size)
         assertEquals("Jeferson", userList[0].name)
         assertEquals("Pereira", userList[0].surname)
@@ -31,21 +38,21 @@ class UserUnitTest {
     @Test
     fun `test insert user with empty name`() {
         val user = User(name = "", surname = "Pereira")
-        UserRepository.insert(user)
+        repository.insert(user)
 
-        val userList = UserRepository.getList()
+        val userList = repository.getList()
         assertTrue(userList.isEmpty())
     }
 
     @Test
     fun `test update valid user`() {
         val user = User(name = "Jeferson", surname = "Pereira")
-        UserRepository.insert(user)
+        repository.insert(user)
 
         val updatedUser = User(id = 1, name = "Jeferson2", surname = "Pereira2")
-        UserRepository.update(updatedUser)
+        repository.update(updatedUser)
 
-        val userList = UserRepository.getList()
+        val userList = repository.getList()
         assertEquals(1, userList.size)
         assertEquals("Jeferson2", userList[0].name)
         assertEquals("Pereira2", userList[0].surname)
@@ -54,12 +61,12 @@ class UserUnitTest {
     @Test
     fun `test update user with empty name or surname`() {
         val user = User(name = "Jeferson", surname = "Pereira")
-        UserRepository.insert(user)
+        repository.insert(user)
 
         val updatedUser = User(id = 1, name = "", surname = "")
-        UserRepository.update(updatedUser)
+        repository.update(updatedUser)
 
-        val userList = UserRepository.getList()
+        val userList = repository.getList()
         assertEquals("Jeferson", userList[0].name)
         assertEquals("Pereira", userList[0].surname)
     }
@@ -67,49 +74,51 @@ class UserUnitTest {
     @Test
     fun `test delete existing user`() {
         val user = User(name = "Jeferson", surname = "Pereira")
-        UserRepository.insert(user)
-        UserRepository.delete(user)
 
-        val userList = UserRepository.getList()
+        repository.insert(user)
+        repository.delete(user)
+
+        val userList = repository.getList()
         assertTrue(userList.isEmpty())
     }
 
     @Test
     fun `test delete user with null id`() {
         val user = User(name = "Jeferson", surname = "Pereira")
-        UserRepository.insert(user)
+        repository.insert(user)
 
         val invalidUser = User(name = "Invalid")
-        UserRepository.delete(invalidUser)
+        repository.delete(invalidUser)
 
-        val userList = UserRepository.getList()
+        val userList = repository.getList()
         assertEquals(1, userList.size)
     }
 
     @Test
     fun findUserWithId() {
         val user = User(name = "Jeferson", surname = "Pereira")
-        UserRepository.insert(user)
+        repository.insert(user)
 
-        val item = UserRepository.find(1)
+        val item = repository.find(1)
         assertEquals("Jeferson", item?.name)
         assertEquals("Pereira", item?.surname)
     }
 
     @Test
     fun invalidDeleteUserWithBorrow() {
-        UserRepository.truncate()
+        repository.truncate()
 
-        UserRepository.insert(User(name = "Jeferson", surname = "Pereira"))
+        repository.insert(User(name = "Jeferson", surname = "Pereira"))
 
-        val item = UserRepository.find(1)
+        val item = repository.find(1)
         assertNotNull(item)
 
-        BorrowRepository.insert(Borrow(1, 1, 1))
+        borrowRepository.truncate()
+        borrowRepository.insert(Borrow(1, 1, 1))
 
-        UserRepository.delete(item ?: User())
+        repository.delete(item ?: User())
 
-        val emptyList = UserRepository.getList()
+        val emptyList = repository.getList()
         assertEquals(1, emptyList.size)
     }
 }
